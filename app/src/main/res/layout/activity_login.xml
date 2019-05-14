@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.LoginActivity">
+
+    <ImageView
+        android:id="@+id/login_title_img"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/global_100"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/welcome"
+        android:text="@string/welcome"
+        android:textSize="@dimen/global_30"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/global_50"
+        app:layout_constraintTop_toBottomOf="@id/login_title_img"
+        android:layout_marginTop="@dimen/global_20"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <EditText
+        android:id="@+id/login_username"
+        android:hint="@string/username"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/global_50"
+        app:layout_constraintTop_toBottomOf="@id/welcome"
+        android:layout_marginTop="@dimen/global_10"
+        tools:layout_editor_absoluteX="0dp"
+        android:autofillHints="" />
+
+    <EditText
+        android:id="@+id/login_password"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/global_50"
+        app:layout_constraintTop_toBottomOf="@id/login_username"
+        android:layout_marginTop="@dimen/global_10"
+        tools:layout_editor_absoluteX="0dp"
+        android:autofillHints="" />
+
+    <Button
+        android:id="@+id/submit"
+        android:text="@string/submit"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/global_50"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="0.5"
+        android:paddingLeft="@dimen/global_10"
+        android:paddingRight="@dimen/global_10"
+        app:layout_constraintTop_toBottomOf="@id/login_password"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <Button
+        android:id="@+id/signup"
+        android:text="@string/signup"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/global_50"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="0.5"
+        android:paddingLeft="@dimen/global_10"
+        android:paddingRight="@dimen/global_10"
+        app:layout_constraintTop_toBottomOf="@id/login_password"
+        app:layout_constraintRight_toRightOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

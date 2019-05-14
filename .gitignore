@@ -3,8 +3,11 @@
 /local.properties
 .idea
 /.idea
+/.settings
 .DS_Store
 /build
 /captures
 .externalNativeBuild
 .vscode/
+.project
+.classpath
