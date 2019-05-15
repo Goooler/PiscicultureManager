@@ -1,7 +1,6 @@
 package io.goooler.pisciculturemanager.activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,10 +11,12 @@ import android.widget.TextView;
 import java.util.List;
 
 import io.goooler.pisciculturemanager.R;
+import io.goooler.pisciculturemanager.base.ActivityCollector;
 import io.goooler.pisciculturemanager.base.BaseActivity;
 import io.goooler.pisciculturemanager.base.BaseApplication;
 import io.goooler.pisciculturemanager.model.UserBean;
 import io.goooler.pisciculturemanager.model.UserBeanDao;
+import io.goooler.pisciculturemanager.model.UserInfoStateBean;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
     private ImageView titleImg;
@@ -42,7 +43,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         signupBtn = find(R.id.signup);
 
         dao = BaseApplication.getDaoSession().getUserBeanDao();
-        if (getUserInfoState()) {
+        if (BaseApplication.getUserInfoState().isSaved()) {
             startActivity(new Intent(this, MainActivity.class));
         }
 
@@ -53,18 +54,18 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     //登录时验证用户名和密码
     private void verify(String username, String password) {
         if (NULL_STRING.equals(password) || NULL_STRING.equals(username)) {
-            showToast(getString(R.string.login_missed));
+            BaseApplication.showToast(getString(R.string.login_missed));
         } else {
             List userList = dao.queryBuilder().where(UserBeanDao.Properties.Username.eq(username)).build().list();
             if (userList.size() == 0) {
-                showToast(getString(R.string.login_none));
+                BaseApplication.showToast(getString(R.string.login_none));
             } else {
                 UserBean bean = (UserBean) userList.get(0);
                 if (bean.getUsername().equals(username) && bean.getPassword().equals(password)) {
-                    saveUserInfoState(username);
+                    BaseApplication.setUserInfoState(new UserInfoStateBean(username, true));
                     startActivity(new Intent(this, MainActivity.class));
                 } else {
-                    showToast(getString(R.string.login_failed));
+                    BaseApplication.showToast(getString(R.string.login_failed));
                 }
             }
         }
@@ -73,16 +74,16 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     //创建新用户，将信息加入数据库
     private void addUser(String username, String password) {
         if (NULL_STRING.equals(password)) {
-            showToast(getString(R.string.register_nopasswd));
+            BaseApplication.showToast(getString(R.string.register_nopasswd));
             return;
         }
         int querySize = dao.queryBuilder().where(UserBeanDao.Properties.Username.eq(username)).build().list().size();
         if (querySize == 0) {
             //没有重复则新建用户
             dao.insert(new UserBean(username, password));
-            showToast(getString(R.string.register_succeed));
+            BaseApplication.showToast(getString(R.string.register_succeed));
         } else {
-            showToast(getString(R.string.register_duplicated));
+            BaseApplication.showToast(getString(R.string.register_duplicated));
         }
     }
 
@@ -113,5 +114,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 signing = true;
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        ActivityCollector.finishAll();
     }
 }

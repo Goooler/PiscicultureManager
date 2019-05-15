@@ -1,15 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment.MainPersonFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/avatar_panel"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#85b84f"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="@dimen/global_160"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</FrameLayout>
+    <ImageView
+        android:id="@+id/avatar_img"
+        android:layout_width="@dimen/global_120"
+        android:layout_height="@dimen/global_120"
+        android:layout_marginStart="@dimen/global_20"
+        android:layout_marginTop="@dimen/global_20"
+        android:src="@mipmap/default_avatar"
+        app:layout_constraintLeft_toLeftOf="@id/avatar_panel"
+        app:layout_constraintTop_toTopOf="@id/avatar_panel" />
+
+    <TextView
+        android:id="@+id/avatar_name"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/global_60"
+        android:layout_marginStart="@dimen/global_20"
+        android:layout_marginTop="@dimen/global_20"
+        android:text="@string/default_username"
+        android:textSize="@dimen/global_40"
+        android:gravity="center_vertical"
+        app:layout_constraintLeft_toRightOf="@id/avatar_img"
+        app:layout_constraintTop_toTopOf="@id/avatar_panel" />
+
+    <io.goooler.pisciculturemanager.view.PersonInfoCardView
+        android:id="@+id/card_password"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/global_80"
+        android:layout_marginTop="@dimen/global_10"
+        android:layout_marginLeft="@dimen/global_10"
+        android:layout_marginRight="@dimen/global_10"
+        app:cardCornerRadius="@dimen/global_5"
+        app:layout_constraintTop_toBottomOf="@id/avatar_panel" />
+
+    <io.goooler.pisciculturemanager.view.PersonInfoCardView
+        android:id="@+id/card_feedback"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/global_80"
+        android:layout_marginTop="@dimen/global_10"
+        android:layout_marginLeft="@dimen/global_10"
+        android:layout_marginRight="@dimen/global_10"
+        app:cardCornerRadius="@dimen/global_5"
+        app:layout_constraintTop_toBottomOf="@id/card_password" />
+
+    <io.goooler.pisciculturemanager.view.PersonInfoCardView
+        android:id="@+id/card_info"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/global_80"
+        android:layout_marginTop="@dimen/global_10"
+        android:layout_marginLeft="@dimen/global_10"
+        android:layout_marginRight="@dimen/global_10"
+        app:cardCornerRadius="@dimen/global_5"
+        app:layout_constraintTop_toBottomOf="@id/card_feedback" />
+
+    <io.goooler.pisciculturemanager.view.PersonInfoCardView
+        android:id="@+id/card_logout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/global_80"
+        android:layout_marginTop="@dimen/global_40"
+        android:layout_marginLeft="@dimen/global_10"
+        android:layout_marginRight="@dimen/global_10"
+        app:cardCornerRadius="@dimen/global_5"
+        app:layout_constraintTop_toBottomOf="@id/card_info" />
+
+</android.support.constraint.ConstraintLayout>

@@ -1,15 +1,14 @@
 package io.goooler.pisciculturemanager.model;
 
 import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Id;
 
 @Entity
 public class OverallDataBean {
 
     /**
      * @description 首页数据总览，所有的水质参数
-     *
      * @id 自增长主键
      * @temprature 温度
      * @ph 酸碱度
@@ -31,7 +30,7 @@ public class OverallDataBean {
 
     @Generated(hash = 1495005162)
     public OverallDataBean(Long id, double temperature, double ph, double oxygen,
-            double nitrogen, double nitrite) {
+                           double nitrogen, double nitrite) {
         this.id = id;
         this.temperature = temperature;
         this.ph = ph;

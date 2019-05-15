@@ -7,4 +7,18 @@
         <item>个人中心</item>
     </string-array>
 
+    <string-array name="main_person_card_title">
+        <item>修改密码</item>
+        <item>意见反馈</item>
+        <item>个人资料</item>
+        <item>退出登录</item>
+    </string-array>
+
+    <string-array name="main_person_card_logo">
+        <item>lock</item>
+        <item>feedback</item>
+        <item>infomation</item>
+        <item>logout</item>
+    </string-array>
+
 </resources>

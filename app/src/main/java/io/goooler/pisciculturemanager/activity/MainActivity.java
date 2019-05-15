@@ -13,6 +13,7 @@ import io.goooler.pisciculturemanager.R;
 import io.goooler.pisciculturemanager.adapter.MainFragmentPagerAdapter;
 import io.goooler.pisciculturemanager.base.ActivityCollector;
 import io.goooler.pisciculturemanager.base.BaseActivity;
+import io.goooler.pisciculturemanager.base.BaseApplication;
 import io.goooler.pisciculturemanager.fragment.MainDetailFragment;
 import io.goooler.pisciculturemanager.fragment.MainNotificationFragment;
 import io.goooler.pisciculturemanager.fragment.MainOverallFragment;
@@ -60,13 +61,14 @@ public class MainActivity extends BaseActivity implements
         tabTitles = getResources().getStringArray(R.array.main_tab_titles);
         fragmentPagerAdapter = new MainFragmentPagerAdapter(getSupportFragmentManager(), fragmentList, tabTitles);
         viewPager.setAdapter(fragmentPagerAdapter);
+        viewPager.setOffscreenPageLimit(1);
         tabLayout.setupWithViewPager(viewPager);
     }
 
     @Override
     public void onBackPressed() {
         //确保已登录的用户按返回键时直接退出应用
-        if (getUserInfoState()) {
+        if (BaseApplication.getUserInfoState().isSaved()) {
             ActivityCollector.finishAll();
         }
     }

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import io.goooler.pisciculturemanager.R;
+import io.goooler.pisciculturemanager.base.BaseFragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -18,7 +19,7 @@ import io.goooler.pisciculturemanager.R;
  * Use the {@link MainOverallFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MainOverallFragment extends Fragment {
+public class MainOverallFragment extends BaseFragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
