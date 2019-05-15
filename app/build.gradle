@@ -22,7 +22,7 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    greendao{
+    greendao {
         schemaVersion 1
     }
 }
@@ -30,8 +30,11 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support:design:28.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     implementation 'com.squareup.okhttp3:okhttp:3.14.1'
     implementation 'com.alibaba:fastjson:1.1.70.android'
     implementation 'org.greenrobot:greendao:3.2.2'
+    implementation 'org.greenrobot:eventbus:3.1.1'
+    implementation 'com.android.support:support-v4:28.0.0'
 }

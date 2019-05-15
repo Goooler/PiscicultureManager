@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="main_tab_titles">
+        <item>数据总览</item>
+        <item>详细数据 </item>
+        <item>消息中心</item>
+        <item>个人中心</item>
+    </string-array>
+
+</resources>

@@ -5,6 +5,8 @@
     <string name="submit">登录</string>
     <string name="signup">注册</string>
     <string name="username">用户名</string>
+    <string name="username_english">username</string>
+    <string name="user_saved">saved</string>
     <string name="password">密码</string>
     <string name="enter">确认</string>
     <string name="cancel">取消</string>
@@ -14,4 +16,7 @@
     <string name="register_duplicated">已存在该用户，直接登录</string>
     <string name="register_succeed">新建用户成功</string>
     <string name="register_nopasswd">密码不能为空</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
