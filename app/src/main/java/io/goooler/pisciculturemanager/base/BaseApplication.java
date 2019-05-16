@@ -11,11 +11,11 @@ import io.goooler.pisciculturemanager.model.DaoMaster;
 import io.goooler.pisciculturemanager.model.DaoSession;
 import io.goooler.pisciculturemanager.model.UserInfoStateBean;
 
+import static io.goooler.pisciculturemanager.model.Constants.SP_USERINFO;
+
 public class BaseApplication extends Application {
     private static Context context;
     private static DaoSession daoSession;
-
-    public static final String SP_USERINFO = "user_config";
 
     @Override
     public void onCreate() {
@@ -60,6 +60,6 @@ public class BaseApplication extends Application {
     //获取用户登录的状态
     public static UserInfoStateBean getUserInfoState() {
         return new UserInfoStateBean(getSp(SP_USERINFO).getString(context.getString(R.string.username_english), "")
-                ,getSp(SP_USERINFO).getBoolean(context.getString(R.string.user_saved), false));
+                , getSp(SP_USERINFO).getBoolean(context.getString(R.string.user_saved), false));
     }
 }

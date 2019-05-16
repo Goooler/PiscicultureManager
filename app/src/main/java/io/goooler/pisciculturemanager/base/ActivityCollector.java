@@ -6,6 +6,8 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.goooler.pisciculturemanager.model.Constants;
+
 public class ActivityCollector {
     public static List<Activity> activityList = new ArrayList<>();
 
@@ -25,6 +27,6 @@ public class ActivityCollector {
         }
         activityList.clear();
         //android.os.Process.killProcess(android.os.Process.myPid());
-        Log.d("BaseActivity", "finished all activities");
+        Log.d(Constants.BASE_ACTIVITY, Constants.FINISH_ALL_ACTIVITY);
     }
 }

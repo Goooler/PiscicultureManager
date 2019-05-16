@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,6 @@ import android.widget.TextView;
 
 import io.goooler.pisciculturemanager.R;
 import io.goooler.pisciculturemanager.activity.LoginActivity;
-import io.goooler.pisciculturemanager.activity.MainActivity;
 import io.goooler.pisciculturemanager.base.BaseApplication;
 import io.goooler.pisciculturemanager.base.BaseFragment;
 import io.goooler.pisciculturemanager.model.UserInfoStateBean;

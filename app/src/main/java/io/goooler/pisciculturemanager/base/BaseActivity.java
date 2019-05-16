@@ -6,8 +6,6 @@ import android.util.Log;
 import android.view.View;
 
 public class BaseActivity extends AppCompatActivity {
-    public final String NULL_STRING = "";
-    public final String NULL_OBJECT = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

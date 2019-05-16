@@ -14,6 +14,7 @@ import io.goooler.pisciculturemanager.R;
 import io.goooler.pisciculturemanager.base.ActivityCollector;
 import io.goooler.pisciculturemanager.base.BaseActivity;
 import io.goooler.pisciculturemanager.base.BaseApplication;
+import io.goooler.pisciculturemanager.model.Constants;
 import io.goooler.pisciculturemanager.model.UserBean;
 import io.goooler.pisciculturemanager.model.UserBeanDao;
 import io.goooler.pisciculturemanager.model.UserInfoStateBean;
@@ -53,7 +54,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     //登录时验证用户名和密码
     private void verify(String username, String password) {
-        if (NULL_STRING.equals(password) || NULL_STRING.equals(username)) {
+        if (Constants.NULL_STRING.equals(password) || Constants.NULL_STRING.equals(username)) {
             BaseApplication.showToast(getString(R.string.login_missed));
         } else {
             List userList = dao.queryBuilder().where(UserBeanDao.Properties.Username.eq(username)).build().list();
@@ -73,7 +74,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     //创建新用户，将信息加入数据库
     private void addUser(String username, String password) {
-        if (NULL_STRING.equals(password)) {
+        if (Constants.NULL_STRING.equals(password)) {
             BaseApplication.showToast(getString(R.string.register_nopasswd));
             return;
         }
