@@ -11,10 +11,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
-import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -26,9 +23,10 @@ import io.goooler.pisciculturemanager.R;
 import io.goooler.pisciculturemanager.base.BaseApplication;
 import io.goooler.pisciculturemanager.base.BaseFragment;
 import io.goooler.pisciculturemanager.model.Constants;
+import io.goooler.pisciculturemanager.view.LineChartView;
 
 public class MainDetailFragment extends BaseFragment {
-    private LineChart chart;
+    private LineChartView chartView;
 
     private List<Entry> entries = new ArrayList<>();
 
@@ -47,8 +45,9 @@ public class MainDetailFragment extends BaseFragment {
     @Override
     protected void initView(View rootView) {
         super.initView(rootView);
-        chart = find(rootView, R.id.chart);
-        createTestChart();
+        createTestChartData();
+        chartView = new LineChartView(rootView, R.id.chart, entries);
+        chartView.draw();
     }
 
     @Override
@@ -90,16 +89,13 @@ public class MainDetailFragment extends BaseFragment {
     }
 
     //生成一组数据绘制折线图，用于测试
-    private void createTestChart() {
+    private void createTestChartData() {
         try {
             JSONArray jsonArray = JSON.parseObject(readJsonFromAssets()).getJSONArray(Constants.COORDINATES);
             for (int i = 0; i < jsonArray.size(); i++) {
                 JSONObject object = (JSONObject) jsonArray.get(i);
                 entries.add(new Entry(object.getFloat(Constants.X), object.getFloat(Constants.Y)));
             }
-            LineDataSet dataSet = new LineDataSet(entries, Constants.LABLE);
-            chart.setData(new LineData(dataSet));
-            chart.invalidate();
         } catch (JSONException e) {
             e.printStackTrace();
         }

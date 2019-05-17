@@ -10,41 +10,60 @@ public class OverallDataBean {
     /**
      * @description 首页数据总览，所有的水质参数
      * @id 自增长主键
+     * @timeStamp 时间戳
      * @temprature 温度
-     * @ph 酸碱度
      * @oxygen 氧含量
+     * @ph 酸碱度
      * @nitrogen 氨氮含量
      * @nitrite 亚硝酸盐含量
      */
 
     @Id(autoincrement = true)
-    Long id;
-    double temperature;
-    double ph;
-    double oxygen;
-    double nitrogen;
-    double nitrite;
+    private long id;
+    private long timeStamp;
+    private double oxygen;
+    private double temperature;
+    private double ph;
+    private double nitrogen;
+    private double nitrite;
 
     public OverallDataBean() {
     }
 
-    @Generated(hash = 1495005162)
-    public OverallDataBean(Long id, double temperature, double ph, double oxygen,
-                           double nitrogen, double nitrite) {
+    @Generated(hash = 1296242961)
+    public OverallDataBean(long id, long timeStamp, double oxygen,
+                           double temperature, double ph, double nitrogen, double nitrite) {
         this.id = id;
+        this.timeStamp = timeStamp;
+        this.oxygen = oxygen;
         this.temperature = temperature;
         this.ph = ph;
-        this.oxygen = oxygen;
         this.nitrogen = nitrogen;
         this.nitrite = nitrite;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
+    }
+
+    public long getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(long timeStamp) {
+        this.timeStamp = timeStamp;
+    }
+
+    public double getOxygen() {
+        return oxygen;
+    }
+
+    public void setOxygen(double oxygen) {
+        this.oxygen = oxygen;
     }
 
     public double getTemperature() {
@@ -61,14 +80,6 @@ public class OverallDataBean {
 
     public void setPh(double ph) {
         this.ph = ph;
-    }
-
-    public double getOxygen() {
-        return oxygen;
-    }
-
-    public void setOxygen(double oxygen) {
-        this.oxygen = oxygen;
     }
 
     public double getNitrogen() {
