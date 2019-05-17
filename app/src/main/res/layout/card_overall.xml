@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/global_100">
+
+    <TextView
+        android:id="@+id/card_title"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/global_20"
+        android:layout_marginTop="@dimen/global_20"
+        android:singleLine="true"
+        android:layout_marginBottom="@dimen/global_20"
+        android:gravity="center_vertical"
+        android:text="@string/default_username"
+        android:textSize="@dimen/global_20" />
+
+    <TextView
+        android:id="@+id/card_value"
+        android:layout_width="@dimen/global_100"
+        android:layout_height="match_parent"
+        android:layout_marginRight="@dimen/global_100"
+        android:layout_marginTop="@dimen/global_20"
+        android:layout_marginBottom="@dimen/global_20"
+        android:layout_alignParentRight="true"
+        android:gravity="center_vertical"
+        android:text="@string/default_username"
+        android:textSize="@dimen/global_20" />
+
+</RelativeLayout>

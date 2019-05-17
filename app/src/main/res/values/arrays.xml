@@ -21,4 +21,12 @@
         <item>logout</item>
     </string-array>
 
+    <string-array name="overall_data_single">
+        <item>溶氧量</item>
+        <item>温度</item>
+        <item>酸碱度</item>
+        <item>氨氮含量</item>
+        <item>亚硝酸盐量</item>
+    </string-array>
+
 </resources>

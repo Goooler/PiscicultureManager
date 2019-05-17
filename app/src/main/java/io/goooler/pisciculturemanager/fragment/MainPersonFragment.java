@@ -47,7 +47,9 @@ public class MainPersonFragment extends BaseFragment implements View.OnClickList
         return rootView;
     }
 
-    private void initView(View rootView) {
+    @Override
+    protected void initView(View rootView) {
+        super.initView(rootView);
         avatarImg = find(rootView, R.id.avatar_img);
         usernameTxt = find(rootView, R.id.avatar_name);
         passwordCard = find(rootView, R.id.card_password);

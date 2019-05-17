@@ -61,7 +61,8 @@ public class MainActivity extends BaseActivity implements
         tabTitles = getResources().getStringArray(R.array.main_tab_titles);
         fragmentPagerAdapter = new MainFragmentPagerAdapter(getSupportFragmentManager(), fragmentList, tabTitles);
         viewPager.setAdapter(fragmentPagerAdapter);
-        viewPager.setOffscreenPageLimit(1);
+        //viewPager可以缓存的fragment页数，保障生命周期完整
+        viewPager.setOffscreenPageLimit(3);
         tabLayout.setupWithViewPager(viewPager);
     }
 

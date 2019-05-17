@@ -31,7 +31,7 @@ public class PersonInfoCardView extends CardView {
     }
 
     private void initView(Context context) {
-        View rootView = LayoutInflater.from(context).inflate(R.layout.person_page_card, this, true);
+        View rootView = LayoutInflater.from(context).inflate(R.layout.card_person_page, this, true);
         logoImg = (ImageView) rootView.findViewById(R.id.card_img);
         titleTxt = (TextView) rootView.findViewById(R.id.card_txt);
     }

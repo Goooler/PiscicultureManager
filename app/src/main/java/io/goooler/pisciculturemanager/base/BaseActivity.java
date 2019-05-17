@@ -5,12 +5,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
+import io.goooler.pisciculturemanager.model.Constants;
+
 public class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("BaseActivity", getClass().getSimpleName());
+        Log.d(Constants.BASE_ACTIVITY, getClass().getSimpleName());
         ActivityCollector.addActivity(this);
     }
 

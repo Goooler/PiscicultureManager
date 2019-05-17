@@ -3,31 +3,26 @@ package io.goooler.pisciculturemanager.fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.goooler.pisciculturemanager.R;
+import io.goooler.pisciculturemanager.adapter.OverallRecyclerViewAdapter;
+import io.goooler.pisciculturemanager.base.BaseApplication;
 import io.goooler.pisciculturemanager.base.BaseFragment;
+import io.goooler.pisciculturemanager.model.OverallSingleBean;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link MainOverallFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link MainOverallFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class MainOverallFragment extends BaseFragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+public class MainOverallFragment extends BaseFragment implements OverallRecyclerViewAdapter.OnItemClickListener {
+    private RecyclerView recyclerView;
+    private OverallRecyclerViewAdapter recyclerViewAdapter;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private List<OverallSingleBean> singleBeans = new ArrayList<>();
 
     private OnFragmentInteractionListener mListener;
 
@@ -35,20 +30,9 @@ public class MainOverallFragment extends BaseFragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment MainOverallFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static MainOverallFragment newInstance(String param1, String param2) {
         MainOverallFragment fragment = new MainOverallFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -56,17 +40,15 @@ public class MainOverallFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main_overall, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_main_overall, container, false);
+        initView(rootView);
+        return rootView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -74,6 +56,22 @@ public class MainOverallFragment extends BaseFragment {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
+    }
+
+    @Override
+    protected void initView(View rootView) {
+        super.initView(rootView);
+        recyclerView = find(rootView, R.id.overall_recycler);
+
+        //列表填充数据初始化
+        String[] beanNames = getContext().getResources().getStringArray(R.array.overall_data_single);
+        for (int i = 0; i < beanNames.length; i++) {
+            singleBeans.add(new OverallSingleBean(beanNames[i], 0));
+        }
+        recyclerViewAdapter = new OverallRecyclerViewAdapter(singleBeans);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(recyclerViewAdapter);
+        recyclerViewAdapter.setOnItemClickListener(this);
     }
 
     @Override
@@ -93,16 +91,11 @@ public class MainOverallFragment extends BaseFragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+    @Override
+    public void onItemClick(View view, int position) {
+        BaseApplication.showToast(position + "");
+    }
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
