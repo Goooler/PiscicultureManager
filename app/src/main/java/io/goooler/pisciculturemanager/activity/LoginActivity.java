@@ -32,6 +32,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private boolean signing;
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        skipLogin();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
@@ -44,12 +50,16 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         signupBtn = find(R.id.signup);
 
         dao = BaseApplication.getDaoSession().getUserBeanDao();
-        if (BaseApplication.getUserInfoState().isSaved()) {
-            startActivity(new Intent(this, MainActivity.class));
-        }
 
         submitBtn.setOnClickListener(this);
         signupBtn.setOnClickListener(this);
+    }
+
+    //验证是否已经登录，已登录直接跳转到 MainActivity
+    private void skipLogin() {
+        if (BaseApplication.getUserInfoState().isSaved()) {
+            startActivity(new Intent(this, MainActivity.class));
+        }
     }
 
     //登录时验证用户名和密码

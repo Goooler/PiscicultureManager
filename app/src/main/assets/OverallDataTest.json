@@ -1,0 +1,41 @@
+{
+  "params": {
+    "id": 0,
+    "timeStamp": 1558165406,
+    "oxygen": 0,
+    "temperature": 0,
+    "ph": 7,
+    "nitrogen": 0,
+    "nitrite": 0
+  },
+  "keyAndValue": [
+    {
+      "key": "id",
+      "value": 0
+    },
+    {
+      "key": "timeStamp",
+      "value": 1558165406
+    },
+    {
+      "key": "oxygen",
+      "value": 0
+    },
+    {
+      "key": "temperature",
+      "value": 0
+    },
+    {
+      "key": "ph",
+      "value": 7
+    },
+    {
+      "key": "nitrogen",
+      "value": 0
+    },
+    {
+      "key": "nitrite",
+      "value": 0
+    }
+  ]
+}

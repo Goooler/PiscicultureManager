@@ -7,6 +7,10 @@ import android.content.res.AssetManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 import io.goooler.pisciculturemanager.R;
 import io.goooler.pisciculturemanager.model.Constants;
 import io.goooler.pisciculturemanager.model.DaoMaster;
@@ -65,5 +69,23 @@ public class BaseApplication extends Application {
 
     public static AssetManager getAssetsManager() {
         return context.getAssets();
+    }
+
+    //读取 assets 下的 LineChartTest.json
+    public static String readJsonFromAssets(String fileName) {
+        String jsonStrng = null;
+        try {
+            StringBuilder builder = new StringBuilder();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(
+                    BaseApplication.getAssetsManager().open(fileName)));
+            while ((jsonStrng = reader.readLine()) != null) {
+                builder.append(jsonStrng);
+            }
+            jsonStrng = builder.toString();
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return jsonStrng;
     }
 }

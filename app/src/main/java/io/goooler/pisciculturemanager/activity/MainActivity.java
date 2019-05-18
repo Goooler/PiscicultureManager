@@ -1,5 +1,6 @@
 package io.goooler.pisciculturemanager.activity;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -18,6 +19,7 @@ import io.goooler.pisciculturemanager.fragment.MainDetailFragment;
 import io.goooler.pisciculturemanager.fragment.MainNotificationFragment;
 import io.goooler.pisciculturemanager.fragment.MainOverallFragment;
 import io.goooler.pisciculturemanager.fragment.MainPersonFragment;
+import io.goooler.pisciculturemanager.service.RequestService;
 
 public class MainActivity extends BaseActivity implements
         MainOverallFragment.OnFragmentInteractionListener,
@@ -46,6 +48,8 @@ public class MainActivity extends BaseActivity implements
         tabLayout = find(R.id.main_tablayout);
 
         initFragments();
+
+        startService(new Intent(this, RequestService.class));
     }
 
     private void initFragments() {

@@ -13,9 +13,6 @@ import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.github.mikephil.charting.data.Entry;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,7 +88,8 @@ public class MainDetailFragment extends BaseFragment {
     //生成一组数据绘制折线图，用于测试
     private void createTestChartData() {
         try {
-            JSONArray jsonArray = JSON.parseObject(readJsonFromAssets()).getJSONArray(Constants.COORDINATES);
+            JSONArray jsonArray = JSON.parseObject(BaseApplication.readJsonFromAssets(Constants.LINECHART_TEST_JSON)).
+                    getJSONArray(Constants.COORDINATES);
             for (int i = 0; i < jsonArray.size(); i++) {
                 JSONObject object = (JSONObject) jsonArray.get(i);
                 entries.add(new Entry(object.getFloat(Constants.X), object.getFloat(Constants.Y)));
@@ -99,24 +97,6 @@ public class MainDetailFragment extends BaseFragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-
-    //读取 assets 下的 LineChartTest.json
-    private String readJsonFromAssets() {
-        String jsonStrng = null;
-        try {
-            StringBuilder builder = new StringBuilder();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(
-                    BaseApplication.getAssetsManager().open(Constants.LINECHART_TEST_JSON)));
-            while ((jsonStrng = reader.readLine()) != null) {
-                builder.append(jsonStrng);
-            }
-            jsonStrng = builder.toString();
-            reader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return jsonStrng;
     }
 
     public interface OnFragmentInteractionListener {
