@@ -1,0 +1,25 @@
+{
+  "msg": "success",
+  "code": 200,
+  "time": "2019-05-19",
+  "data": [
+    {
+      "id": 1,
+      "timeStamp": 1558196817,
+      "oxygen": 0,
+      "temperature": 0,
+      "ph": 7,
+      "nitrogen": 0,
+      "nitrite": 0
+    },
+    {
+      "id": 2,
+      "timeStamp": 1558196841,
+      "oxygen": 9,
+      "temperature": 40,
+      "ph": 8,
+      "nitrogen": 0.02,
+      "nitrite": 0.6
+    }
+  ]
+}

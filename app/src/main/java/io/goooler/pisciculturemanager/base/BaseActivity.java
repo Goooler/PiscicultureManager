@@ -2,17 +2,17 @@ package io.goooler.pisciculturemanager.base;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 
 import io.goooler.pisciculturemanager.model.Constants;
+import io.goooler.pisciculturemanager.util.LogUtil;
 
 public class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(Constants.BASE_ACTIVITY, getClass().getSimpleName());
+        LogUtil.d(Constants.BASE_ACTIVITY, getClass().getSimpleName());
         ActivityCollector.addActivity(this);
     }
 
