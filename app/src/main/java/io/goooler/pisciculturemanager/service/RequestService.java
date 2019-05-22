@@ -4,15 +4,14 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
+import java.io.IOException;
 import java.util.List;
 
-import io.goooler.pisciculturemanager.base.BaseApplication;
-import io.goooler.pisciculturemanager.model.Constants;
+import io.goooler.pisciculturemanager.R;
 import io.goooler.pisciculturemanager.model.OverallDataBean;
-import io.goooler.pisciculturemanager.model.RequestDataBean;
-import io.goooler.pisciculturemanager.util.DatabaseUtil;
-import io.goooler.pisciculturemanager.util.JsonUtil;
 import io.goooler.pisciculturemanager.util.LogUtil;
+import io.goooler.pisciculturemanager.util.RequestUtil;
+import okhttp3.Response;
 
 public class RequestService extends Service {
     public RequestService() {
@@ -29,6 +28,7 @@ public class RequestService extends Service {
     public void onCreate() {
         super.onCreate();
         LogUtil.d("created");
+        createTestOverallData();
     }
 
     @Override
@@ -50,8 +50,19 @@ public class RequestService extends Service {
     private void createTestOverallData() {
         List<OverallDataBean> beans = null;
         //Json 的解析直接通过 parseObject 映射到对应类型的实体类，比较优雅
-        beans = JsonUtil.parse(BaseApplication.
+        /*beans = JsonUtil.parse(BaseApplication.
                 readJsonFromAssets(Constants.REQUEST_DATA_TEST_JSON), RequestDataBean.class).getBeans();
-        DatabaseUtil.insert(beans);
+        DatabaseUtil.insert(beans);*/
+
+        RequestUtil.request(getResources().getString(R.string.requestDataTest), new RequestUtil.RequestListener() {
+            @Override
+            public void response(Response rawRseponse) {
+                try {
+                    LogUtil.d(rawRseponse.body().string());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 }

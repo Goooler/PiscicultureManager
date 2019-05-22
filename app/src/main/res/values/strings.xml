@@ -18,6 +18,8 @@
     <string name="register_duplicated">已存在该用户，直接登录</string>
     <string name="register_succeed">新建用户成功</string>
     <string name="register_nopasswd">密码不能为空</string>
+    <string name="request_failed">请求失败</string>
+    <string name="request_succeed">请求成功</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
