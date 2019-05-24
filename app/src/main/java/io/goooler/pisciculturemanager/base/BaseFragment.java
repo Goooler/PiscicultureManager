@@ -1,7 +1,8 @@
 package io.goooler.pisciculturemanager.base;
 
-import android.support.v4.app.Fragment;
 import android.view.View;
+
+import androidx.fragment.app.Fragment;
 
 public abstract class BaseFragment extends Fragment {
 

@@ -1,8 +1,9 @@
 package io.goooler.pisciculturemanager.base;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import io.goooler.pisciculturemanager.model.Constants;
 import io.goooler.pisciculturemanager.util.LogUtil;
