@@ -67,12 +67,12 @@ public class OverallRecyclerViewAdapter extends RecyclerView.Adapter<OverallRecy
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            titleTxt = (TextView) itemView.findViewById(R.id.card_title);
-            valueTxt = (TextView) itemView.findViewById(R.id.card_value);
+            titleTxt = itemView.findViewById(R.id.card_title);
+            valueTxt = itemView.findViewById(R.id.card_value);
         }
     }
 
-    public static interface OnItemClickListener {
+    public interface OnItemClickListener {
         void onItemClick(View view, int position);
     }
 }

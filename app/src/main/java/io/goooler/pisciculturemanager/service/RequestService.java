@@ -9,11 +9,16 @@ import java.util.List;
 
 import io.goooler.pisciculturemanager.R;
 import io.goooler.pisciculturemanager.model.OverallDataBean;
+import io.goooler.pisciculturemanager.model.RequestDataBean;
+import io.goooler.pisciculturemanager.util.DatabaseUtil;
+import io.goooler.pisciculturemanager.util.JsonUtil;
 import io.goooler.pisciculturemanager.util.LogUtil;
 import io.goooler.pisciculturemanager.util.RequestUtil;
 import okhttp3.Response;
 
 public class RequestService extends Service {
+    private List<OverallDataBean> beans;
+
     public RequestService() {
     }
 
@@ -28,7 +33,6 @@ public class RequestService extends Service {
     public void onCreate() {
         super.onCreate();
         LogUtil.d("created");
-        createTestOverallData();
     }
 
     @Override
@@ -44,24 +48,19 @@ public class RequestService extends Service {
     }
 
     /**
-     * 往 OverallDataBean 表里写入一组测试数据，
-     * 如果重复写入同一条 id 的数据会让 GreenDao 报错闪退
+     * 往 OverallDataBean 表里写入一组请求得来的数据，
+     * 注意如果重复写入同一条 id 的数据会让 GreenDao 报错闪退
      */
-    private void createTestOverallData() {
-        List<OverallDataBean> beans = null;
-        //Json 的解析直接通过 parseObject 映射到对应类型的实体类，比较优雅
-        /*beans = JsonUtil.parse(BaseApplication.
-                readJsonFromAssets(Constants.REQUEST_DATA_TEST_JSON), RequestDataBean.class).getBeans();
-        DatabaseUtil.insert(beans);*/
-
+    private void requestAndInsert() {
         RequestUtil.request(getResources().getString(R.string.requestDataTest), new RequestUtil.RequestListener() {
             @Override
             public void response(Response rawRseponse) {
                 try {
-                    LogUtil.d(rawRseponse.body().string());
+                    beans = JsonUtil.parse(rawRseponse.body().string(), RequestDataBean.class).getBeans();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                DatabaseUtil.insert(beans);
             }
         });
     }

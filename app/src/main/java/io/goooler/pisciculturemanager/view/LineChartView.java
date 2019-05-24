@@ -21,11 +21,11 @@ public class LineChartView {
     private List<Entry> entries = new ArrayList<>();
 
     public LineChartView(View rootView, int resId) {
-        chart = (LineChart) rootView.findViewById(resId);
+        chart = rootView.findViewById(resId);
     }
 
     public LineChartView(View rootView, int resId, List<Entry> entries) {
-        chart = (LineChart) rootView.findViewById(resId);
+        chart = rootView.findViewById(resId);
         this.entries = entries;
     }
 
