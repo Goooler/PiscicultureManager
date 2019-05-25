@@ -7,20 +7,9 @@ import org.greenrobot.greendao.annotation.Id;
 @Entity
 public class OverallDataBean {
 
-    /**
-     * @description 首页数据总览，所有的水质参数
-     * @id 自增长主键
-     * @timeStamp 时间戳
-     * @temprature 温度
-     * @oxygen 氧含量
-     * @ph 酸碱度
-     * @nitrogen 氨氮含量
-     * @nitrite 亚硝酸盐含量
-     */
-
     @Id(autoincrement = true)
     private long id;
-    private long timeStamp;
+    private long timestamp;
     private double oxygen;
     private double temperature;
     private double ph;
@@ -30,11 +19,20 @@ public class OverallDataBean {
     public OverallDataBean() {
     }
 
-    @Generated(hash = 1296242961)
-    public OverallDataBean(long id, long timeStamp, double oxygen,
-                           double temperature, double ph, double nitrogen, double nitrite) {
+    public OverallDataBean(long timestamp, double oxygen, double temperature, double ph, double nitrogen, double nitrite) {
+        this.timestamp = timestamp;
+        this.oxygen = oxygen;
+        this.temperature = temperature;
+        this.ph = ph;
+        this.nitrogen = nitrogen;
+        this.nitrite = nitrite;
+    }
+
+    @Generated(hash = 760494190)
+    public OverallDataBean(long id, long timestamp, double oxygen, double temperature, double ph, double nitrogen,
+                           double nitrite) {
         this.id = id;
-        this.timeStamp = timeStamp;
+        this.timestamp = timestamp;
         this.oxygen = oxygen;
         this.temperature = temperature;
         this.ph = ph;
@@ -50,12 +48,12 @@ public class OverallDataBean {
         this.id = id;
     }
 
-    public long getTimeStamp() {
-        return timeStamp;
+    public long getTimestamp() {
+        return timestamp;
     }
 
-    public void setTimeStamp(long timeStamp) {
-        this.timeStamp = timeStamp;
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
     }
 
     public double getOxygen() {

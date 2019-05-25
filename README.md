@@ -26,7 +26,7 @@
   "data": [
     {
       "id": 1,
-      "timeStamp": 1558196817,
+      "timestamp": 1558196817,
       "oxygen": 0,
       "temperature": 0,
       "ph": 7,
@@ -35,7 +35,7 @@
     },
     {
       "id": 2,
-      "timeStamp": 1558196841,
+      "timestamp": 1558196841,
       "oxygen": 9,
       "temperature": 40,
       "ph": 8,

@@ -31,7 +31,7 @@
 
     <string-array name="overall_data_params">
         <item>id</item>
-        <item>timeStamp</item>
+        <item>timestamp</item>
         <item>oxygen</item>
         <item>temperature</item>
         <item>ph</item>
