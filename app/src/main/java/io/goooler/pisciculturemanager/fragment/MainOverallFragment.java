@@ -7,8 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -23,13 +27,17 @@ import io.goooler.pisciculturemanager.base.BaseFragment;
 import io.goooler.pisciculturemanager.model.EventType;
 import io.goooler.pisciculturemanager.model.OverallDataBean;
 import io.goooler.pisciculturemanager.model.OverallSingleBean;
+import io.goooler.pisciculturemanager.util.DatabaseUtil;
 import io.goooler.pisciculturemanager.util.EventBusUtil;
+import io.goooler.pisciculturemanager.util.ResUtil;
 
-public class MainOverallFragment extends BaseFragment implements OverallRecyclerViewAdapter.OnItemClickListener {
+public class MainOverallFragment extends BaseFragment implements OverallRecyclerViewAdapter.OnItemClickListener, OnRefreshListener {
+    private RefreshLayout refreshLayout;
     private RecyclerView recyclerView;
     private OverallRecyclerViewAdapter recyclerViewAdapter;
 
     private List<OverallSingleBean> singleBeans = new ArrayList<>();
+    private OverallDataBean dataBean;
     private String[] beanNames;
 
     private OnFragmentInteractionListener mListener;
@@ -71,16 +79,17 @@ public class MainOverallFragment extends BaseFragment implements OverallRecycler
     protected void initView(View rootView) {
         super.initView(rootView);
         recyclerView = find(rootView, R.id.overall_recycler);
+        refreshLayout = find(rootView, R.id.overall_refresh);
 
+        dataBean = DatabaseUtil.getLatestOne();
         //列表填充数据初始化
         beanNames = getContext().getResources().getStringArray(R.array.overall_data_single);
-        for (int i = 0; i < beanNames.length; i++) {
-            singleBeans.add(new OverallSingleBean(beanNames[i], 0));
-        }
+        fillDataToList();
         recyclerViewAdapter = new OverallRecyclerViewAdapter(singleBeans);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerViewAdapter.setOnItemClickListener(this);
+        refreshLayout.setOnRefreshListener(this);
     }
 
     @Override
@@ -111,6 +120,12 @@ public class MainOverallFragment extends BaseFragment implements OverallRecycler
         BaseApplication.showToast(position + "");
     }
 
+    @Override
+    public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+        //下拉刷新触发请求
+        EventBusUtil.post(new EventType(EventType.SUCCEED, EventType.OVERALL_TO_SERVICE, null));
+    }
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
@@ -120,15 +135,29 @@ public class MainOverallFragment extends BaseFragment implements OverallRecycler
     public void onEventMainThread(EventType eventType) {
         if (eventType.isSameOne(EventType.SERVICE_TO_OVERALL)) {
             if (eventType.isSuccessful()) {
-                OverallDataBean dataBean = (OverallDataBean) eventType.message;
-                singleBeans.clear();
-                singleBeans.add(new OverallSingleBean(beanNames[0], dataBean.getOxygen()));
-                singleBeans.add(new OverallSingleBean(beanNames[1], dataBean.getTemperature()));
-                singleBeans.add(new OverallSingleBean(beanNames[2], dataBean.getPh()));
-                singleBeans.add(new OverallSingleBean(beanNames[3], dataBean.getNitrogen()));
-                singleBeans.add(new OverallSingleBean(beanNames[4], dataBean.getNitrite()));
+                dataBean = (OverallDataBean) eventType.message;
+                fillDataToList();
                 recyclerViewAdapter.notifyDataSetChanged();
+                BaseApplication.showToast(ResUtil.getString(R.string.data_refreshed));
+            } else {
+                BaseApplication.showToast(ResUtil.getString(R.string.data_no_refreshed));
             }
+            refreshLayout.finishRefresh();
         }
     }
+
+    /**
+     * 把 OverallDataBean 各个成员填充
+     * TODO: 这里可以考虑使用 OverallDataBean 数据类型替代，有时间改过来
+     */
+    private void fillDataToList() {
+        singleBeans.clear();
+        singleBeans.add(new OverallSingleBean(beanNames[0], dataBean.getOxygen()));
+        singleBeans.add(new OverallSingleBean(beanNames[1], dataBean.getTemperature()));
+        singleBeans.add(new OverallSingleBean(beanNames[2], dataBean.getPh()));
+        singleBeans.add(new OverallSingleBean(beanNames[3], dataBean.getNitrogen()));
+        singleBeans.add(new OverallSingleBean(beanNames[4], dataBean.getNitrite()));
+    }
+
+
 }

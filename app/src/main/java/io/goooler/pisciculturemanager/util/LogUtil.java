@@ -6,6 +6,7 @@ import io.goooler.pisciculturemanager.model.Constants;
 
 /**
  * Log 工具的简单封装，可自由控制全局 log 输出
+ * TODO: 这里的日志输出与否的值可记在 sp 中方便更改，后期可加入后门控制
  */
 
 public class LogUtil {

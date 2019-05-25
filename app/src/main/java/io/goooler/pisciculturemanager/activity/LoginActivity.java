@@ -15,9 +15,11 @@ import io.goooler.pisciculturemanager.base.ActivityCollector;
 import io.goooler.pisciculturemanager.base.BaseActivity;
 import io.goooler.pisciculturemanager.base.BaseApplication;
 import io.goooler.pisciculturemanager.model.Constants;
+import io.goooler.pisciculturemanager.model.OverallDataBean;
 import io.goooler.pisciculturemanager.model.UserBean;
 import io.goooler.pisciculturemanager.model.UserBeanDao;
 import io.goooler.pisciculturemanager.model.UserInfoStateBean;
+import io.goooler.pisciculturemanager.util.DatabaseUtil;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
     private ImageView titleImg;
@@ -74,6 +76,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 UserBean bean = (UserBean) userList.get(0);
                 if (bean.getUsername().equals(username) && bean.getPassword().equals(password)) {
                     BaseApplication.setUserInfoState(new UserInfoStateBean(username, true));
+                    initOverallDB();
                     startActivity(new Intent(this, MainActivity.class));
                 } else {
                     BaseApplication.showToast(getString(R.string.login_failed));
@@ -95,6 +98,15 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             BaseApplication.showToast(getString(R.string.register_succeed));
         } else {
             BaseApplication.showToast(getString(R.string.register_duplicated));
+        }
+    }
+
+    //初始化主数据库，仅在第一次运行的时候初始化
+    private void initOverallDB() {
+        if (BaseApplication.isFirstRun()) {
+            DatabaseUtil.insert(new OverallDataBean(0, 0,
+                    0, 0, 0, 0, 0));
+            BaseApplication.setFirstRunState(false);
         }
     }
 

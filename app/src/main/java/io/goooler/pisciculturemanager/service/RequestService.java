@@ -12,6 +12,7 @@ import java.util.List;
 import io.goooler.pisciculturemanager.model.EventType;
 import io.goooler.pisciculturemanager.model.OverallDataBean;
 import io.goooler.pisciculturemanager.model.RequestDataBean;
+import io.goooler.pisciculturemanager.util.DatabaseUtil;
 import io.goooler.pisciculturemanager.util.EventBusUtil;
 import io.goooler.pisciculturemanager.util.JsonUtil;
 import io.goooler.pisciculturemanager.util.RequestUtil;
@@ -34,7 +35,7 @@ public class RequestService extends Service {
     public void onCreate() {
         super.onCreate();
         EventBusUtil.register(this);
-        requestAndInsert(10);
+        syncDatabase(DatabaseUtil.getLatestOne().getId());
     }
 
     @Override
@@ -49,27 +50,34 @@ public class RequestService extends Service {
     }
 
     /**
-     * 往 OverallDataBean 表里写入一组请求得来的数据，
-     * 注意如果重复写入同一条 id 的数据会让 GreenDao 报错闪退
-     *
-     * @param number 请求的数据条数
+     * @param index 指定需要开始同步的 id
      */
-    private void requestAndInsert(int number) {
-        ServiceRequestUtil.getLatestData(number, new RequestUtil.RequestListener() {
+    private void syncDatabase(long index) {
+        ServiceRequestUtil.getFromIndex(index, new RequestUtil.RequestListener() {
             @Override
             public void response(Response rawRseponse, String jsonString) {
                 List<OverallDataBean> beans = JsonUtil.parse(jsonString,
                         RequestDataBean.class).getBeans();
-                EventBusUtil.post(new EventType(EventType.SUCCEED, EventType.SERVICE_TO_OVERALL,
-                        beans.get(0)));
+                if (beans.size() != 0) {
+                    EventBusUtil.post(new EventType(EventType.SUCCEED, EventType.SERVICE_TO_OVERALL,
+                            beans.get(0)));
+                    DatabaseUtil.insert(beans);
+                } else {
+                    EventBusUtil.post(new EventType(EventType.FAILED, EventType.SERVICE_TO_OVERALL, null));
+                }
             }
         });
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(EventType eventType) {
-        if (eventType.isSuccessful()) {
-
+        switch (eventType.messageCode) {
+            case EventType.OVERALL_TO_SERVICE:
+                if (eventType.isSuccessful()) {
+                    syncDatabase(DatabaseUtil.getLatestOne().getId());
+                }
+            default:
+                break;
         }
     }
 }

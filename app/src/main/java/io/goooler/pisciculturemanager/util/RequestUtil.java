@@ -24,11 +24,13 @@ public class RequestUtil {
     /**
      * @constant DEFAULT_URL    通用的请求地址前缀，工程比较简单只使用了一个服务器，不用考虑切换服务器的问题
      * @constant ALL_DATA   请求所有数据的地址，查询参数是获取最近条数
+     * @constant SOME_DATA   请求部分数据的地址，查询参数是获取从指定 id 之后的所有条目
      * @constant ADD_ONE    向表中添加一条数据的接口，
      */
 
     public static final String DEFAULT_URL = "http://149.129.123.191/piscicultureManager/mananger/";
     public static final String ALL_DATA = "allData/%s";
+    public static final String SOME_DATA = "some/%s";
     public static final String ADD_ONE = "add";
 
     /**

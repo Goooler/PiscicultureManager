@@ -14,6 +14,8 @@ public class EventType {
 
     // Service 回调给 MainOverallFragment 的数据，用于刷新数据总览
     public static final int SERVICE_TO_OVERALL = 100;
+    // MainOverallFragment 下拉刷新触发请求，交给 Service 处理
+    public static final int OVERALL_TO_SERVICE = 101;
 
     public int statusCode;
     public int messageCode;

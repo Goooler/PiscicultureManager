@@ -55,6 +55,14 @@ public class BaseApplication extends Application {
         return context.getSharedPreferences(spName, MODE_PRIVATE).edit();
     }
 
+    public static void setFirstRunState(boolean firstRunState) {
+        getSpEditer(Constants.SP_RUNINFO).putBoolean(Constants.SP_FIRST_RUN, firstRunState).apply();
+    }
+
+    public static boolean isFirstRun() {
+        return getSp(Constants.SP_RUNINFO).getBoolean(Constants.SP_FIRST_RUN, true);
+    }
+
     //保存用户登录的状态
     public static void setUserInfoState(UserInfoStateBean userInfoStateBean) {
         getSpEditer(Constants.SP_USERINFO).putString(context.getString(R.string.username_english), userInfoStateBean.getUsername()).

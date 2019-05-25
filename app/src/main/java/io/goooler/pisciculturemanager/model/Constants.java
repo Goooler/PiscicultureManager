@@ -7,6 +7,8 @@ public class Constants {
     public static final String NULL_STRING = "";
     public static final String NULL_OBJECT = null;
     public static final String SP_USERINFO = "user_config";
+    public static final String SP_RUNINFO = "run_config";
+    public static final String SP_FIRST_RUN = "firstRun";
     public static final String BASE_ACTIVITY = "BaseActivity";
     public static final String FINISH_ALL_ACTIVITY = "finished all activities";
     public static final String COORDINATES = "coordinates";
