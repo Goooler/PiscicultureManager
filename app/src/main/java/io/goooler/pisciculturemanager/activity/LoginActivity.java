@@ -67,11 +67,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     //登录时验证用户名和密码
     private void verify(String username, String password) {
         if (Constants.NULL_STRING.equals(password) || Constants.NULL_STRING.equals(username)) {
-            BaseApplication.showToast(getString(R.string.login_missed));
+            BaseApplication.showToast(R.string.login_missed);
         } else {
             List userList = dao.queryBuilder().where(UserBeanDao.Properties.Username.eq(username)).build().list();
             if (userList.size() == 0) {
-                BaseApplication.showToast(getString(R.string.login_none));
+                BaseApplication.showToast(R.string.login_none);
             } else {
                 UserBean bean = (UserBean) userList.get(0);
                 if (bean.getUsername().equals(username) && bean.getPassword().equals(password)) {
@@ -79,7 +79,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     initOverallDB();
                     startActivity(new Intent(this, MainActivity.class));
                 } else {
-                    BaseApplication.showToast(getString(R.string.login_failed));
+                    BaseApplication.showToast(R.string.login_failed);
                 }
             }
         }
@@ -88,16 +88,16 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     //创建新用户，将信息加入数据库
     private void addUser(String username, String password) {
         if (Constants.NULL_STRING.equals(password)) {
-            BaseApplication.showToast(getString(R.string.register_nopasswd));
+            BaseApplication.showToast(R.string.register_nopasswd);
             return;
         }
         int querySize = dao.queryBuilder().where(UserBeanDao.Properties.Username.eq(username)).build().list().size();
         if (querySize == 0) {
             //没有重复则新建用户
             dao.insert(new UserBean(username, password));
-            BaseApplication.showToast(getString(R.string.register_succeed));
+            BaseApplication.showToast(R.string.register_succeed);
         } else {
-            BaseApplication.showToast(getString(R.string.register_duplicated));
+            BaseApplication.showToast(R.string.register_duplicated);
         }
     }
 

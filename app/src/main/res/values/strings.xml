@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">PiscicultureManager</string>
     <string name="default_username">默认用户</string>
+    <string name="default_time">默认时间</string>
     <string name="default_test">默认测试文本</string>
     <string name="welcome">欢迎登录</string>
     <string name="signingup">请注册</string>
@@ -22,6 +23,8 @@
     <string name="request_succeed">请求成功</string>
     <string name="data_refreshed">数据已刷新</string>
     <string name="data_no_refreshed">暂无更新</string>
+    <string name="data_updated">更新成功</string>
+    <string name="one_day_data">24小时内数据</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

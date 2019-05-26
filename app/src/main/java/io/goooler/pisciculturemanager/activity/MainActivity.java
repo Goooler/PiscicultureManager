@@ -22,6 +22,7 @@ import io.goooler.pisciculturemanager.fragment.MainNotificationFragment;
 import io.goooler.pisciculturemanager.fragment.MainOverallFragment;
 import io.goooler.pisciculturemanager.fragment.MainPersonFragment;
 import io.goooler.pisciculturemanager.service.RequestService;
+import io.goooler.pisciculturemanager.util.ResUtil;
 
 public class MainActivity extends BaseActivity implements
         MainOverallFragment.OnFragmentInteractionListener,
@@ -51,9 +52,11 @@ public class MainActivity extends BaseActivity implements
 
         initFragments();
 
+        //初始化 MainActivity 之后 直接开启一个 service 处理网络请求等操作
         startService(new Intent(this, RequestService.class));
     }
 
+    //初始化首页的几个 fragment 加入 viewPager
     private void initFragments() {
         overallFragment = new MainOverallFragment();
         detailFragment = new MainDetailFragment();
@@ -64,7 +67,7 @@ public class MainActivity extends BaseActivity implements
         fragmentList.add(detailFragment);
         fragmentList.add(notificationFragment);
         fragmentList.add(personFragment);
-        tabTitles = getResources().getStringArray(R.array.main_tab_titles);
+        tabTitles = ResUtil.getStringArray(R.array.main_tab_titles);
         fragmentPagerAdapter = new MainFragmentPagerAdapter(getSupportFragmentManager(), fragmentList, tabTitles);
         viewPager.setAdapter(fragmentPagerAdapter);
         //viewPager可以缓存的fragment页数，保障生命周期完整

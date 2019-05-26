@@ -18,4 +18,5 @@ public class Constants {
     public static final String LABLE = "lable";
     public static final String X = "x";
     public static final String Y = "y";
+    public static final String MIPMAP = "mipmap";
 }

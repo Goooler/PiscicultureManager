@@ -1,5 +1,7 @@
 package io.goooler.pisciculturemanager.util;
 
+import io.goooler.pisciculturemanager.model.OverallDataBean;
+
 /**
  * RequestService 中需要用到的几个方法封装
  */
@@ -32,5 +34,15 @@ public class ServiceRequestUtil {
      */
     public static void getFromIndex(long id, RequestUtil.RequestListener requestListener) {
         RequestUtil.getRequest(String.format(RequestUtil.SOME_DATA, id + 1), requestListener);
+    }
+
+    /**
+     * 本地数据修改之后同步到服务端
+     *
+     * @param dataBean        要上传的参数，后面 post 请求发送对象转的 json
+     * @param requestListener 接口回调
+     */
+    public static void postSync(OverallDataBean dataBean, RequestUtil.RequestListener requestListener) {
+        RequestUtil.postRequest(RequestUtil.ADD_ONE, dataBean.toJsonString(), requestListener);
     }
 }

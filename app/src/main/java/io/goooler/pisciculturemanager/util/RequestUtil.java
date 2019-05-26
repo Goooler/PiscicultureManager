@@ -3,15 +3,15 @@ package io.goooler.pisciculturemanager.util;
 import android.os.Looper;
 
 import java.io.IOException;
-import java.util.Map;
 
 import io.goooler.pisciculturemanager.R;
 import io.goooler.pisciculturemanager.base.BaseApplication;
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.FormBody;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
@@ -29,6 +29,7 @@ public class RequestUtil {
      */
 
     public static final String DEFAULT_URL = "http://149.129.123.191/piscicultureManager/mananger/";
+    public static final String CONTENT_TYPE_JSON = "application/json; charset=utf-8";
     public static final String ALL_DATA = "allData/%s";
     public static final String SOME_DATA = "some/%s";
     public static final String ADD_ONE = "add";
@@ -58,17 +59,14 @@ public class RequestUtil {
     /**
      * 普通 post 异步请求
      *
-     * @param url      请求地址
-     * @param paramMap post 请求参数
-     * @param listener 返回结果回调
+     * @param url        请求地址
+     * @param jsonString body 是 json 的方式
+     * @param listener   返回结果回调
      */
-    public static void postRequest(String url, Map<String, String> paramMap, RequestListener listener) {
+    public static void postRequest(String url, String jsonString, RequestListener listener) {
         OkHttpClient client = new OkHttpClient();
-        FormBody.Builder bodyBuilder = new FormBody.Builder();
-        for (String key : paramMap.keySet()) {
-            bodyBuilder.add(key, paramMap.get(key));
-        }
-        Request request = new Request.Builder().url(url).post(bodyBuilder.build()).build();
+        RequestBody body = RequestBody.create(MediaType.parse(CONTENT_TYPE_JSON), jsonString);
+        Request request = new Request.Builder().url(DEFAULT_URL + url).post(body).build();
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -85,7 +83,7 @@ public class RequestUtil {
     //请求失败直接弹出 toast 提示失败
     private static void showToast() {
         Looper.prepare();
-        BaseApplication.showToast(ResUtil.getString(R.string.request_failed));
+        BaseApplication.showToast(R.string.request_failed);
         Looper.loop();
     }
 

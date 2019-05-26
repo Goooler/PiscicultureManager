@@ -47,6 +47,10 @@ public class BaseApplication extends Application {
         Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
     }
 
+    public static void showToast(int stringId) {
+        Toast.makeText(context, context.getString(stringId), Toast.LENGTH_SHORT).show();
+    }
+
     public static SharedPreferences getSp(String spName) {
         return context.getSharedPreferences(spName, MODE_PRIVATE);
     }

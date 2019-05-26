@@ -1,5 +1,7 @@
 package io.goooler.pisciculturemanager.model;
 
+import com.alibaba.fastjson.JSONObject;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
@@ -94,5 +96,9 @@ public class OverallDataBean {
 
     public void setNitrite(double nitrite) {
         this.nitrite = nitrite;
+    }
+
+    public String toJsonString() {
+        return JSONObject.toJSONString(this);
     }
 }

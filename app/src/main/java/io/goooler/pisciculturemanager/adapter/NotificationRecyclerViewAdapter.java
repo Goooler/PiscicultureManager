@@ -14,34 +14,31 @@ import io.goooler.pisciculturemanager.R;
 import io.goooler.pisciculturemanager.model.OverallSingleBean;
 
 /**
- * 第一个 fragment 上的 recyclerView 的适配器
+ * 第三个 fragment 上的 recyclerView 的适配器
+ * TODO: 有时间考虑做个适配器的封装
  */
 
-public class OverallRecyclerViewAdapter extends RecyclerView.Adapter<OverallRecyclerViewAdapter.ViewHolder>
+public class NotificationRecyclerViewAdapter extends RecyclerView.Adapter<NotificationRecyclerViewAdapter.ViewHolder>
         implements View.OnClickListener {
     private List<OverallSingleBean> beans;
 
     private OnItemClickListener onItemClickListener;
 
-    public OverallRecyclerViewAdapter(List<OverallSingleBean> beans) {
-        this.beans = beans;
-    }
-
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public NotificationRecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).
-                inflate(R.layout.card_overall, viewGroup, false);
+                inflate(R.layout.card_notification, viewGroup, false);
         view.setOnClickListener(this);
-        return new ViewHolder(view);
+        return new NotificationRecyclerViewAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        if (i <= beans.size()) {
-            viewHolder.itemView.setTag(i);
-            viewHolder.titleTxt.setText(beans.get(i).getName());
-            viewHolder.valueTxt.setText(beans.get(i).getValueString());
+    public void onBindViewHolder(@NonNull NotificationRecyclerViewAdapter.ViewHolder holder, int position) {
+        if (position <= beans.size()) {
+            holder.itemView.setTag(position);
+            holder.titleTxt.setText(beans.get(position).getDate());
+            holder.valueTxt.setText(beans.get(position).getValueString());
         }
     }
 
@@ -50,7 +47,7 @@ public class OverallRecyclerViewAdapter extends RecyclerView.Adapter<OverallRecy
         return beans.size();
     }
 
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+    public void setOnItemClickListener(NotificationRecyclerViewAdapter.OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }
 

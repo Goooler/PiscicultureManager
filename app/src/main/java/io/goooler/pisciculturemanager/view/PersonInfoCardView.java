@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 
 import io.goooler.pisciculturemanager.R;
+import io.goooler.pisciculturemanager.model.Constants;
 
 public class PersonInfoCardView extends CardView {
     public ImageView logoImg;
@@ -43,7 +44,8 @@ public class PersonInfoCardView extends CardView {
     }
 
     public void setContent(String txtName, String imgName) {
-        logoImg.setImageResource(getResources().getIdentifier(imgName, "mipmap", getContext().getPackageName()));
+        //通过指定类型和文件名去找资源 id
+        logoImg.setImageResource(getResources().getIdentifier(imgName, Constants.MIPMAP, getContext().getPackageName()));
         titleTxt.setText(txtName);
     }
 }

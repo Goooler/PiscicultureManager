@@ -15,7 +15,8 @@ import io.goooler.pisciculturemanager.model.OverallDataBean;
 public class GenerateDataUtil {
 
     public static OverallDataBean generate() {
-        long timestamp = System.currentTimeMillis();
+        //时间戳精度要求不高
+        long timestamp = System.currentTimeMillis() / 1000;
         int hour = timeToHour(timestamp);
         return new OverallDataBean(timestamp, oxygenValue(hour), temperatureValue(hour),
                 phValue(hour), nitrogenValue(hour), nitriteValue(hour));

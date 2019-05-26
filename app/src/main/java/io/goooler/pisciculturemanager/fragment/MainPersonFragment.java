@@ -15,6 +15,7 @@ import io.goooler.pisciculturemanager.activity.LoginActivity;
 import io.goooler.pisciculturemanager.base.BaseApplication;
 import io.goooler.pisciculturemanager.base.BaseFragment;
 import io.goooler.pisciculturemanager.model.UserInfoStateBean;
+import io.goooler.pisciculturemanager.util.ResUtil;
 import io.goooler.pisciculturemanager.view.PersonInfoCardView;
 
 public class MainPersonFragment extends BaseFragment implements View.OnClickListener {
@@ -57,8 +58,8 @@ public class MainPersonFragment extends BaseFragment implements View.OnClickList
         infoCard = find(rootView, R.id.card_info);
         logoutCard = find(rootView, R.id.card_logout);
 
-        String[] titles = getResources().getStringArray(R.array.main_person_card_title);
-        String[] logos = getResources().getStringArray(R.array.main_person_card_logo);
+        String[] titles = ResUtil.getStringArray(R.array.main_person_card_title);
+        String[] logos = ResUtil.getStringArray(R.array.main_person_card_logo);
 
         username = BaseApplication.getUserInfoState().getUsername();
         usernameTxt.setText(username);

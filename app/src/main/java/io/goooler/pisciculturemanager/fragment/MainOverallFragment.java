@@ -39,6 +39,11 @@ public class MainOverallFragment extends BaseFragment implements OverallRecycler
     private List<OverallSingleBean> singleBeans = new ArrayList<>();
     private OverallDataBean dataBean;
     private String[] beanNames;
+    private final int OXYGEN_POS = 0;
+    private final int TEMPERATURE_POS = 1;
+    private final int PH_POS = 2;
+    private final int NITROGEN_POS = 3;
+    private final int NITRITE_POS = 4;
 
     private OnFragmentInteractionListener mListener;
 
@@ -83,7 +88,7 @@ public class MainOverallFragment extends BaseFragment implements OverallRecycler
 
         dataBean = DatabaseUtil.getLatestOne();
         //列表填充数据初始化
-        beanNames = getContext().getResources().getStringArray(R.array.overall_data_single);
+        beanNames = ResUtil.getStringArray(R.array.overall_data_single);
         fillDataToList();
         recyclerViewAdapter = new OverallRecyclerViewAdapter(singleBeans);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -117,7 +122,25 @@ public class MainOverallFragment extends BaseFragment implements OverallRecycler
 
     @Override
     public void onItemClick(View view, int position) {
-        BaseApplication.showToast(position + "");
+        switch (position) {
+            case OXYGEN_POS:
+
+                break;
+            case TEMPERATURE_POS:
+
+                break;
+            case PH_POS:
+
+                break;
+            case NITROGEN_POS:
+
+                break;
+            case NITRITE_POS:
+
+                break;
+            default:
+                break;
+        }
     }
 
     @Override
@@ -138,9 +161,9 @@ public class MainOverallFragment extends BaseFragment implements OverallRecycler
                 dataBean = (OverallDataBean) eventType.message;
                 fillDataToList();
                 recyclerViewAdapter.notifyDataSetChanged();
-                BaseApplication.showToast(ResUtil.getString(R.string.data_refreshed));
+                BaseApplication.showToast(R.string.data_refreshed);
             } else {
-                BaseApplication.showToast(ResUtil.getString(R.string.data_no_refreshed));
+                BaseApplication.showToast(R.string.data_no_refreshed);
             }
             refreshLayout.finishRefresh();
         }
