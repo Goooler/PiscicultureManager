@@ -15,15 +15,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Design.Light.NoActionBar"
         tools:ignore="HardcodedDebugMode">
-        <receiver
-            android:name=".receiver.AlarmReceiver"
-            android:enabled="true"
-            android:exported="true"></receiver>
-        <receiver
-            android:name=".receiver.MyReceiver"
-            android:enabled="true"
-            android:exported="true" />
-
         <service
             android:name=".service.RequestService"
             android:enabled="true"

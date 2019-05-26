@@ -8,16 +8,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.List;
-
 import io.goooler.pisciculturemanager.R;
 import io.goooler.pisciculturemanager.base.ActivityCollector;
 import io.goooler.pisciculturemanager.base.BaseActivity;
 import io.goooler.pisciculturemanager.base.BaseApplication;
 import io.goooler.pisciculturemanager.model.Constants;
-import io.goooler.pisciculturemanager.model.OverallDataBean;
-import io.goooler.pisciculturemanager.model.UserBean;
-import io.goooler.pisciculturemanager.model.UserBeanDao;
 import io.goooler.pisciculturemanager.model.UserInfoStateBean;
 import io.goooler.pisciculturemanager.util.DatabaseUtil;
 
@@ -28,8 +23,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private EditText passwordTxt;
     private Button submitBtn;
     private Button signupBtn;
-
-    private UserBeanDao dao;
 
     private boolean signing;
 
@@ -51,8 +44,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         submitBtn = find(R.id.submit);
         signupBtn = find(R.id.signup);
 
-        dao = BaseApplication.getDaoSession().getUserBeanDao();
-
         submitBtn.setOnClickListener(this);
         signupBtn.setOnClickListener(this);
     }
@@ -69,12 +60,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         if (Constants.NULL_STRING.equals(password) || Constants.NULL_STRING.equals(username)) {
             BaseApplication.showToast(R.string.login_missed);
         } else {
-            List userList = dao.queryBuilder().where(UserBeanDao.Properties.Username.eq(username)).build().list();
-            if (userList.size() == 0) {
+            if (!DatabaseUtil.haveTheUser(username)) {
                 BaseApplication.showToast(R.string.login_none);
             } else {
-                UserBean bean = (UserBean) userList.get(0);
-                if (bean.getUsername().equals(username) && bean.getPassword().equals(password)) {
+                if (DatabaseUtil.verifyUser(username, password)) {
                     BaseApplication.setUserInfoState(new UserInfoStateBean(username, true));
                     initOverallDB();
                     startActivity(new Intent(this, MainActivity.class));
@@ -91,10 +80,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             BaseApplication.showToast(R.string.register_nopasswd);
             return;
         }
-        int querySize = dao.queryBuilder().where(UserBeanDao.Properties.Username.eq(username)).build().list().size();
-        if (querySize == 0) {
+        if (!DatabaseUtil.haveTheUser(username)) {
             //没有重复则新建用户
-            dao.insert(new UserBean(username, password));
+            DatabaseUtil.addUser(username, password);
             BaseApplication.showToast(R.string.register_succeed);
         } else {
             BaseApplication.showToast(R.string.register_duplicated);
@@ -104,8 +92,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     //初始化主数据库，仅在第一次运行的时候初始化
     private void initOverallDB() {
         if (BaseApplication.isFirstRun()) {
-            DatabaseUtil.insert(new OverallDataBean(0, 0,
-                    0, 0, 0, 0, 0));
+            DatabaseUtil.initDatabase();
             BaseApplication.setFirstRunState(false);
         }
     }
