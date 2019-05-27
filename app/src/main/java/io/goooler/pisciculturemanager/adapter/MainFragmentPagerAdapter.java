@@ -7,6 +7,9 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import java.util.List;
 
+/**
+ * MainActivity Fragment ViewPager 适配器
+ */
 public class MainFragmentPagerAdapter extends FragmentStatePagerAdapter {
 
     private List<Fragment> fragmentList;

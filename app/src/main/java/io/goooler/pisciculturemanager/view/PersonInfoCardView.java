@@ -14,6 +14,9 @@ import androidx.cardview.widget.CardView;
 import io.goooler.pisciculturemanager.R;
 import io.goooler.pisciculturemanager.model.Constants;
 
+/**
+ * 个人中心的几个卡片封装 view 复用
+ */
 public class PersonInfoCardView extends CardView {
     public ImageView logoImg;
     public TextView titleTxt;

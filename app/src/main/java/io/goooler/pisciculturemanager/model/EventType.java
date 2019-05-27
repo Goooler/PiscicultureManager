@@ -1,5 +1,9 @@
 package io.goooler.pisciculturemanager.model;
 
+/**
+ * 自定义的 EventBus 事件类型
+ */
+
 public class EventType {
 
     /**

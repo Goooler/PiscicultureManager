@@ -6,6 +6,10 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 
+/**
+ * 所有参数集合，同时也是主表
+ */
+
 @Entity
 public class OverallDataBean {
 

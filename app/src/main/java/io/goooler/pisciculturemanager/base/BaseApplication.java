@@ -17,6 +17,9 @@ import io.goooler.pisciculturemanager.model.DaoMaster;
 import io.goooler.pisciculturemanager.model.DaoSession;
 import io.goooler.pisciculturemanager.model.UserInfoStateBean;
 
+/**
+ * 封装通用方法和一些初始化的动作
+ */
 public class BaseApplication extends Application {
     private static Context context;
     private static DaoSession daoSession;

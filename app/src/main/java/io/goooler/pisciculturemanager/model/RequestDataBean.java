@@ -5,6 +5,9 @@ import com.alibaba.fastjson.annotation.JSONField;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 服务端接口 allData/%s 返回 json 对应的实体结构
+ */
 public class RequestDataBean {
 
     @JSONField(name = "msg")

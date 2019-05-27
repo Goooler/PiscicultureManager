@@ -33,6 +33,10 @@ import io.goooler.pisciculturemanager.util.ResUtil;
 import io.goooler.pisciculturemanager.util.ServiceRequestUtil;
 import okhttp3.Response;
 
+/**
+ * 请求方法都封装到 service 后台处理，同时处理数据库插入
+ */
+
 public class RequestService extends Service {
 
     private List<OverallDataBean> beans;

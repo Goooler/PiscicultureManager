@@ -8,6 +8,9 @@ import java.util.List;
 import io.goooler.pisciculturemanager.model.Constants;
 import io.goooler.pisciculturemanager.util.LogUtil;
 
+/**
+ * 方便管理 activity
+ */
 public class ActivityCollector {
     public static List<Activity> activityList = new ArrayList<>();
 

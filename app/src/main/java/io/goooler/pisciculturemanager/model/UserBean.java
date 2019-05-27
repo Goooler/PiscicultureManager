@@ -5,6 +5,9 @@ import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.NotNull;
 
+/**
+ * 用户信息表
+ */
 @Entity
 public class UserBean {
 

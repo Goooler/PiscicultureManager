@@ -22,6 +22,9 @@ import io.goooler.pisciculturemanager.base.BaseFragment;
 import io.goooler.pisciculturemanager.model.Constants;
 import io.goooler.pisciculturemanager.view.LineChartView;
 
+/**
+ * 首页第二个 fragment
+ */
 public class MainDetailFragment extends BaseFragment {
     private LineChartView chartView;
 

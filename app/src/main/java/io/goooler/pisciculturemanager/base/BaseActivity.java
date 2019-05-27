@@ -8,6 +8,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import io.goooler.pisciculturemanager.model.Constants;
 import io.goooler.pisciculturemanager.util.LogUtil;
 
+/**
+ * 基类，封装通用方法
+ */
 public class BaseActivity extends AppCompatActivity {
 
     @Override

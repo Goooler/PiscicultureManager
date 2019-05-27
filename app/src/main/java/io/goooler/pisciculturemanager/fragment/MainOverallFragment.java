@@ -31,6 +31,9 @@ import io.goooler.pisciculturemanager.util.DatabaseUtil;
 import io.goooler.pisciculturemanager.util.EventBusUtil;
 import io.goooler.pisciculturemanager.util.ResUtil;
 
+/**
+ * 首页第一个 fragment
+ */
 public class MainOverallFragment extends BaseFragment implements OverallRecyclerViewAdapter.OnItemClickListener, OnRefreshListener {
     private RefreshLayout refreshLayout;
     private RecyclerView recyclerView;

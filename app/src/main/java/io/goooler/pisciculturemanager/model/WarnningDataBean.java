@@ -4,6 +4,10 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 
+/**
+ * 参数预警的几个指标，同时也是一张表
+ */
+
 @Entity
 public class WarnningDataBean {
 

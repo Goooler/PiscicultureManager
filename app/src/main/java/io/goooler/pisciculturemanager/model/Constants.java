@@ -1,5 +1,8 @@
 package io.goooler.pisciculturemanager.model;
 
+/**
+ * 常量集合
+ */
 public class Constants {
     public static final String DB_NAME = "Manager.db";
     public static final String LINECHART_TEST_JSON = "LineChartTest.json";

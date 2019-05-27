@@ -18,6 +18,9 @@ import io.goooler.pisciculturemanager.model.UserInfoStateBean;
 import io.goooler.pisciculturemanager.util.ResUtil;
 import io.goooler.pisciculturemanager.view.PersonInfoCardView;
 
+/**
+ * 首页第四个 fragment
+ */
 public class MainPersonFragment extends BaseFragment implements View.OnClickListener {
     private ImageView avatarImg;
     private TextView usernameTxt;

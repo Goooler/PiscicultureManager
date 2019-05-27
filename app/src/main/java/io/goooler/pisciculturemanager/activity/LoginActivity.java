@@ -16,6 +16,10 @@ import io.goooler.pisciculturemanager.model.Constants;
 import io.goooler.pisciculturemanager.model.UserInfoStateBean;
 import io.goooler.pisciculturemanager.util.DatabaseUtil;
 
+/**
+ * 管理登录的页面，记住登录状态后直接跳转 MainActivity
+ */
+
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
     private ImageView titleImg;
     private TextView welcomeTxt;

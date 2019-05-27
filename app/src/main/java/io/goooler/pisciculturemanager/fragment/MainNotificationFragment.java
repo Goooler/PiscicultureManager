@@ -18,6 +18,9 @@ import io.goooler.pisciculturemanager.model.EventType;
 import io.goooler.pisciculturemanager.util.EventBusUtil;
 import io.goooler.pisciculturemanager.util.LogUtil;
 
+/**
+ * 首页第三个 fragment
+ */
 public class MainNotificationFragment extends BaseFragment {
     private RecyclerView recyclerView;
 
