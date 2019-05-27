@@ -21,7 +21,9 @@ import io.goooler.pisciculturemanager.fragment.MainDetailFragment;
 import io.goooler.pisciculturemanager.fragment.MainNotificationFragment;
 import io.goooler.pisciculturemanager.fragment.MainOverallFragment;
 import io.goooler.pisciculturemanager.fragment.MainPersonFragment;
+import io.goooler.pisciculturemanager.model.Constants;
 import io.goooler.pisciculturemanager.service.RequestService;
+import io.goooler.pisciculturemanager.util.CalculateUtil;
 import io.goooler.pisciculturemanager.util.ResUtil;
 
 public class MainActivity extends BaseActivity implements
@@ -56,6 +58,17 @@ public class MainActivity extends BaseActivity implements
         startService(new Intent(this, RequestService.class));
     }
 
+    /**
+     * 通过点击通知跳转到 singleTask 模式的 activity 传递参数在这里接收
+     *
+     * @param intent 通知里传递的 intent
+     */
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        gotoPage(intent.getIntExtra(Constants.GOTO_FRAGMENT_ID, Constants.NULL_FRAGMENT_ID));
+    }
+
     //初始化首页的几个 fragment 加入 viewPager
     private void initFragments() {
         overallFragment = new MainOverallFragment();
@@ -73,6 +86,21 @@ public class MainActivity extends BaseActivity implements
         //viewPager可以缓存的fragment页数，保障生命周期完整
         viewPager.setOffscreenPageLimit(3);
         tabLayout.setupWithViewPager(viewPager);
+    }
+
+    /**
+     * 在 onNewIntent 里接收跳转逻辑并下发，
+     *
+     * @param fragmentId 跳转页面的参数，-1为默认值不做任何处理
+     */
+    private void gotoPage(int fragmentId) {
+        if (fragmentId > Constants.NULL_FRAGMENT_ID) {
+            //首页四个 fragment 的区间
+            if (CalculateUtil.isBetween(0, 3, fragmentId)) {
+                //切换到对应的 tab
+                tabLayout.getTabAt(fragmentId).select();
+            }
+        }
     }
 
     @Override

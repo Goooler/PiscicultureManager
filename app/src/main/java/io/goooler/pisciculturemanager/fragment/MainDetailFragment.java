@@ -95,7 +95,6 @@ public class MainDetailFragment extends BaseFragment {
                 entries.add(new Entry(object.getFloat(Constants.X), object.getFloat(Constants.Y)));
             }
         } catch (JSONException e) {
-            e.printStackTrace();
         }
     }
 

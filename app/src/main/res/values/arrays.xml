@@ -29,6 +29,14 @@
         <item>亚硝酸盐量</item>
     </string-array>
 
+    <string-array name="overall_unit_single">
+        <item>mg/L</item>
+        <item>℃</item>
+        <item></item>
+        <item>ppm</item>
+        <item>ppm</item>
+    </string-array>
+
     <string-array name="overall_data_params">
         <item>id</item>
         <item>timestamp</item>

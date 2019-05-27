@@ -94,7 +94,6 @@ public class RequestUtil {
             try {
                 jsonString = response.body().string();
             } catch (IOException e) {
-                e.printStackTrace();
             }
             listener.response(response, jsonString);
         }

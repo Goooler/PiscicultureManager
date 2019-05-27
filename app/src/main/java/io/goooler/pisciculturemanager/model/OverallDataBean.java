@@ -21,6 +21,18 @@ public class OverallDataBean {
     public OverallDataBean() {
     }
 
+
+    /**
+     * 多个用途，同时是主数据库的表，关联 GreenDao
+     *
+     * @param id          主键，自增长
+     * @param timestamp   时间戳
+     * @param oxygen      氧含量
+     * @param temperature 温度
+     * @param ph          酸碱度
+     * @param nitrogen    氨氮含量
+     * @param nitrite     亚硝酸盐含量
+     */
     public OverallDataBean(long timestamp, double oxygen, double temperature, double ph, double nitrogen, double nitrite) {
         this.timestamp = timestamp;
         this.oxygen = oxygen;

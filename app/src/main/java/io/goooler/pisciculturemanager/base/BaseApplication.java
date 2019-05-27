@@ -96,7 +96,6 @@ public class BaseApplication extends Application {
             jsonStrng = builder.toString();
             reader.close();
         } catch (IOException e) {
-            e.printStackTrace();
         }
         return jsonStrng;
     }
