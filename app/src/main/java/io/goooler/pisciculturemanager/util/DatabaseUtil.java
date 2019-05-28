@@ -10,6 +10,8 @@ import io.goooler.pisciculturemanager.model.OverallDataBean;
 import io.goooler.pisciculturemanager.model.OverallDataBeanDao;
 import io.goooler.pisciculturemanager.model.UserBean;
 import io.goooler.pisciculturemanager.model.UserBeanDao;
+import io.goooler.pisciculturemanager.model.WarnningDataBean;
+import io.goooler.pisciculturemanager.model.WarnningDataBeanDao;
 
 /**
  * 对 GreenDao 的简单封装，以便统一异常处理等操作
@@ -60,23 +62,49 @@ public class DatabaseUtil {
     }
 
     /**
-     * 同步查询，
+     * 同步查询，查所有参数的历史数据的最新一条
      *
      * @return 返回最新一条的数据
      */
-    public static OverallDataBean getLatestOne() {
-        return getLatest(LATEST_ONE).get(FIRST_INDEX);
+    public static OverallDataBean getLatestOverallOne() {
+        return getLatestOverall(LATEST_ONE).get(FIRST_INDEX);
     }
 
     /**
-     * 同步查询，
+     * 同步查询，查所有参数的历史数据
      *
      * @param number 最新时间往前推 n 条数据
      * @return 返回数据集合
      */
-    public static List<OverallDataBean> getLatest(int number) {
+    public static List<OverallDataBean> getLatestOverall(int number) {
         return BaseApplication.getDaoSession().getOverallDataBeanDao().queryBuilder().
                 orderDesc(OverallDataBeanDao.Properties.Timestamp).limit(number).build().list();
+    }
+
+    /**
+     * 同步查询，查预警消息的历史数据
+     * 这里查询越界不会报错，仅返回可查询最大值
+     *
+     * @param number 最新时间往前推 n 条数据
+     * @return 返回数据集合
+     */
+    public static List<WarnningDataBean> getLatestWarnning(int number) {
+        return BaseApplication.getDaoSession().getWarnningDataBeanDao().queryBuilder().
+                orderDesc(WarnningDataBeanDao.Properties.Timestamp).limit(number).build().list();
+    }
+
+    /**
+     * 异步查询，查预警消息的历史数据，同步查询太多会阻塞主线程
+     * 这里查询越界不会报错，仅返回可查询最大值
+     *
+     * @param number 最新时间往前推 n 条数据
+     * @return 返回数据集合，必须回调
+     */
+    public static void getLatestWarnning(int number, AsyncOperationListener asyncOperationListener) {
+        AsyncSession asyncSession = BaseApplication.getDaoSession().startAsyncSession();
+        asyncSession.setListener(asyncOperationListener);
+        asyncSession.queryList(BaseApplication.getDaoSession().getWarnningDataBeanDao().queryBuilder().
+                orderDesc(WarnningDataBeanDao.Properties.Timestamp).limit(number).build());
     }
 
 

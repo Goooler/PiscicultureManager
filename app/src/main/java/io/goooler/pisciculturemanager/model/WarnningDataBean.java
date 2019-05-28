@@ -1,8 +1,14 @@
 package io.goooler.pisciculturemanager.model;
 
+import com.alibaba.fastjson.JSONObject;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
+
+import io.goooler.pisciculturemanager.R;
+import io.goooler.pisciculturemanager.util.DateUtil;
+import io.goooler.pisciculturemanager.util.ResUtil;
 
 /**
  * 参数预警的几个指标，同时也是一张表
@@ -97,5 +103,17 @@ public class WarnningDataBean {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String toJsonString() {
+        return JSONObject.toJSONString(this);
+    }
+
+    public String getDate() {
+        return DateUtil.timestampToDate(timestamp);
+    }
+
+    public String getDescription() {
+        return paramName + ResUtil.getString(R.string.param_overstandard) + +value + unit;
     }
 }

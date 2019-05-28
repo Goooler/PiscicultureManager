@@ -3,6 +3,7 @@ package io.goooler.pisciculturemanager.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,6 +21,7 @@ import io.goooler.pisciculturemanager.model.OverallSingleBean;
 public class OverallRecyclerViewAdapter extends RecyclerView.Adapter<OverallRecyclerViewAdapter.ViewHolder>
         implements View.OnClickListener {
     private List<OverallSingleBean> beans;
+    private boolean editable;
 
     private OnItemClickListener onItemClickListener;
 
@@ -42,6 +44,7 @@ public class OverallRecyclerViewAdapter extends RecyclerView.Adapter<OverallRecy
             viewHolder.itemView.setTag(i);
             viewHolder.titleTxt.setText(beans.get(i).getName());
             viewHolder.valueTxt.setText(beans.get(i).getValueString());
+            viewHolder.setEditable(editable);
         }
     }
 
@@ -61,18 +64,54 @@ public class OverallRecyclerViewAdapter extends RecyclerView.Adapter<OverallRecy
         }
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    /**
+     * 设置所有 item 上的 EditText 的可编辑状态
+     *
+     * @param editable
+     */
+    public void setEditable(boolean editable) {
+        this.editable = editable;
+        notifyDataSetChanged();
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView titleTxt;
-        TextView valueTxt;
+        EditText valueTxt;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             titleTxt = itemView.findViewById(R.id.card_title);
             valueTxt = itemView.findViewById(R.id.card_value);
+            //值默认只做展示不可编辑
+            setEditable(false);
+        }
+
+        public double getValue() {
+            return Double.valueOf(valueTxt.getText().toString());
+        }
+
+        /**
+         * 设置单个 EditText 的可编辑状态
+         *
+         * @param editable 可编辑与否
+         */
+        public void setEditable(boolean editable) {
+            //设置输入框中的光标不可见
+            valueTxt.setCursorVisible(editable);
+            //无焦点
+            valueTxt.setFocusable(editable);
+            //触摸时也得不到焦点
+            valueTxt.setFocusableInTouchMode(editable);
         }
     }
 
     public interface OnItemClickListener {
+        /**
+         * 自定义的 recyclerView 的列表点击回调
+         *
+         * @param view     获取的单个 itemView
+         * @param position 获取的位置
+         */
         void onItemClick(View view, int position);
     }
 }

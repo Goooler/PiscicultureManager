@@ -1,28 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="@dimen/global_100">
 
     <TextView
-        android:id="@+id/card_img"
-        android:layout_width="@dimen/global_100"
-        android:layout_height="@dimen/global_60"
-        android:text="@string/default_time"
-        android:gravity="center_vertical"
-        android:layout_marginLeft="@dimen/global_10"
-        android:layout_marginTop="@dimen/global_15"
-        android:layout_marginBottom="@dimen/global_15"
-        android:textSize="@dimen/global_15" />
-
-    <TextView
-        android:id="@+id/card_txt"
+        android:id="@+id/card_title"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/global_60"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/global_20"
+        android:layout_marginTop="@dimen/global_20"
+        android:singleLine="true"
+        android:layout_marginBottom="@dimen/global_20"
         android:gravity="center_vertical"
-        android:layout_marginLeft="@dimen/global_160"
-        android:layout_marginTop="@dimen/global_10"
-        android:layout_marginBottom="@dimen/global_10"
-        android:text="@string/default_test"
+        android:text="@string/default_username"
+        android:textSize="@dimen/global_20" />
+
+    <TextView
+        android:id="@+id/card_value"
+        android:layout_width="@dimen/global_160"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/global_20"
+        android:layout_marginBottom="@dimen/global_20"
+        android:layout_toRightOf="@id/card_title"
+        android:layout_marginLeft="@dimen/global_50"
+        android:gravity="center_vertical"
+        android:text="@string/default_username"
         android:textSize="@dimen/global_15" />
 
-</androidx.cardview.widget.CardView>
+</RelativeLayout>

@@ -112,7 +112,7 @@ public class RequestService extends Service {
      * 目前两个地方调用，service 的定时任务中和首页下拉刷新的请求
      */
     private void syncDatabase() {
-        syncDatabase(DatabaseUtil.getLatestOne().getId());
+        syncDatabase(DatabaseUtil.getLatestOverallOne().getId());
     }
 
     /**

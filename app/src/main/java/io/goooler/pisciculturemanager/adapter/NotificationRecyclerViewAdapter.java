@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import io.goooler.pisciculturemanager.R;
-import io.goooler.pisciculturemanager.model.OverallSingleBean;
+import io.goooler.pisciculturemanager.model.WarnningDataBean;
 
 /**
  * 第三个 fragment 上的 recyclerView 的适配器
@@ -20,25 +20,29 @@ import io.goooler.pisciculturemanager.model.OverallSingleBean;
 
 public class NotificationRecyclerViewAdapter extends RecyclerView.Adapter<NotificationRecyclerViewAdapter.ViewHolder>
         implements View.OnClickListener {
-    private List<OverallSingleBean> beans;
+    private List<WarnningDataBean> beans;
 
     private OnItemClickListener onItemClickListener;
 
+    public NotificationRecyclerViewAdapter(List<WarnningDataBean> beans) {
+        this.beans = beans;
+    }
+
     @NonNull
     @Override
-    public NotificationRecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).
                 inflate(R.layout.card_notification, viewGroup, false);
         view.setOnClickListener(this);
-        return new NotificationRecyclerViewAdapter.ViewHolder(view);
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull NotificationRecyclerViewAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         if (position <= beans.size()) {
             holder.itemView.setTag(position);
             holder.titleTxt.setText(beans.get(position).getDate());
-            holder.valueTxt.setText(beans.get(position).getValueString());
+            holder.valueTxt.setText(beans.get(position).getDescription());
         }
     }
 

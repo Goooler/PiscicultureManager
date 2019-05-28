@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,29 +25,34 @@ import io.goooler.pisciculturemanager.R;
 import io.goooler.pisciculturemanager.adapter.OverallRecyclerViewAdapter;
 import io.goooler.pisciculturemanager.base.BaseApplication;
 import io.goooler.pisciculturemanager.base.BaseFragment;
+import io.goooler.pisciculturemanager.model.Constants;
 import io.goooler.pisciculturemanager.model.EventType;
 import io.goooler.pisciculturemanager.model.OverallDataBean;
 import io.goooler.pisciculturemanager.model.OverallSingleBean;
 import io.goooler.pisciculturemanager.util.DatabaseUtil;
 import io.goooler.pisciculturemanager.util.EventBusUtil;
+import io.goooler.pisciculturemanager.util.RequestUtil;
 import io.goooler.pisciculturemanager.util.ResUtil;
+import io.goooler.pisciculturemanager.util.ServiceRequestUtil;
+import okhttp3.Response;
 
 /**
  * 首页第一个 fragment
  */
-public class MainOverallFragment extends BaseFragment implements OverallRecyclerViewAdapter.OnItemClickListener, OnRefreshListener {
+public class MainOverallFragment extends BaseFragment implements
+        OverallRecyclerViewAdapter.OnItemClickListener, OnRefreshListener, View.OnClickListener {
     private RefreshLayout refreshLayout;
     private RecyclerView recyclerView;
     private OverallRecyclerViewAdapter recyclerViewAdapter;
+    private Button modifyBtn;
+    private Button cancelBtn;
 
     private List<OverallSingleBean> singleBeans = new ArrayList<>();
     private OverallDataBean dataBean;
     private String[] beanNames;
-    private final int OXYGEN_POS = 0;
-    private final int TEMPERATURE_POS = 1;
-    private final int PH_POS = 2;
-    private final int NITROGEN_POS = 3;
-    private final int NITRITE_POS = 4;
+    //EditText 可编辑状态
+    private boolean editable;
+    private boolean editing;
 
     private OnFragmentInteractionListener mListener;
 
@@ -88,14 +94,17 @@ public class MainOverallFragment extends BaseFragment implements OverallRecycler
         super.initView(rootView);
         recyclerView = find(rootView, R.id.overall_recycler);
         refreshLayout = find(rootView, R.id.overall_refresh);
-
-        dataBean = DatabaseUtil.getLatestOne();
+        modifyBtn = find(rootView, R.id.modify);
+        cancelBtn = find(rootView, R.id.cancel);
+        dataBean = DatabaseUtil.getLatestOverallOne();
         //列表填充数据初始化
         beanNames = ResUtil.getStringArray(R.array.overall_data_single);
         fillDataToList();
         recyclerViewAdapter = new OverallRecyclerViewAdapter(singleBeans);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(recyclerViewAdapter);
+        modifyBtn.setOnClickListener(this);
+        cancelBtn.setOnClickListener(this);
         recyclerViewAdapter.setOnItemClickListener(this);
         refreshLayout.setOnRefreshListener(this);
     }
@@ -126,19 +135,19 @@ public class MainOverallFragment extends BaseFragment implements OverallRecycler
     @Override
     public void onItemClick(View view, int position) {
         switch (position) {
-            case OXYGEN_POS:
+            case Constants.OXYGEN_POS:
 
                 break;
-            case TEMPERATURE_POS:
+            case Constants.TEMPERATURE_POS:
 
                 break;
-            case PH_POS:
+            case Constants.PH_POS:
 
                 break;
-            case NITROGEN_POS:
+            case Constants.NITROGEN_POS:
 
                 break;
-            case NITRITE_POS:
+            case Constants.NITRITE_POS:
 
                 break;
             default:
@@ -146,10 +155,62 @@ public class MainOverallFragment extends BaseFragment implements OverallRecycler
         }
     }
 
+    /**
+     * 下拉刷新的回调
+     */
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-        //下拉刷新触发请求
         EventBusUtil.post(new EventType(EventType.SUCCEED, EventType.OVERALL_TO_SERVICE, null));
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == modifyBtn) {
+            if (!editable) {
+                editable = true;
+                modifyBtn.setText(R.string.commit);
+                cancelBtn.setVisibility(View.VISIBLE);
+            } else {
+                commitChanges();
+                restoreDefault();
+            }
+            recyclerViewAdapter.setEditable(editable);
+        } else if (v == cancelBtn) {
+            restoreDefault();
+            recyclerViewAdapter.setEditable(editable);
+        }
+    }
+
+    /**
+     * 提交修改的表单数据
+     */
+    private void commitChanges() {
+        dataBean = new OverallDataBean(System.currentTimeMillis() / 1000,
+                getViewHolder(0).getValue(),
+                getViewHolder(1).getValue(),
+                getViewHolder(2).getValue(),
+                getViewHolder(3).getValue(),
+                getViewHolder(4).getValue());
+        ServiceRequestUtil.postSync(dataBean, new RequestUtil.RequestListener() {
+            @Override
+            public void response(Response rawRseponse, String jsonString) {
+                if (rawRseponse.isSuccessful()) {
+                    EventBusUtil.post(new EventType(EventType.SUCCEED, EventType.OVERALL_TO_SERVICE, null));
+                }
+            }
+        });
+    }
+
+    private OverallRecyclerViewAdapter.ViewHolder getViewHolder(int position) {
+        return (OverallRecyclerViewAdapter.ViewHolder) recyclerView.getChildViewHolder(
+                recyclerView.getLayoutManager().getChildAt(position));
+    }
+
+    //界面恢复默认状态
+    private void restoreDefault() {
+        modifyBtn.setText(R.string.modify);
+        cancelBtn.setVisibility(View.INVISIBLE);
+        editable = false;
     }
 
     public interface OnFragmentInteractionListener {

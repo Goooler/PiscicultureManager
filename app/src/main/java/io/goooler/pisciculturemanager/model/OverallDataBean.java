@@ -6,6 +6,8 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 
+import io.goooler.pisciculturemanager.util.DateUtil;
+
 /**
  * 所有参数集合，同时也是主表
  */
@@ -116,5 +118,9 @@ public class OverallDataBean {
 
     public String toJsonString() {
         return JSONObject.toJSONString(this);
+    }
+
+    public String getDate() {
+        return DateUtil.timestampToDate(timestamp);
     }
 }

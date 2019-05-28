@@ -36,4 +36,10 @@ public class Constants {
     public static int DETAIL_FRAGMENT_ID = 1;
     public static int NOTIFICATION_FRAGMENT_ID = 2;
     public static int PERSON_FRAGMENT_ID = 3;
+    //首页几个 item 对应的位置
+    public static final int OXYGEN_POS = 0;
+    public static final int TEMPERATURE_POS = 1;
+    public static final int PH_POS = 2;
+    public static final int NITROGEN_POS = 3;
+    public static final int NITRITE_POS = 4;
 }
