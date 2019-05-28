@@ -82,6 +82,19 @@ public class DatabaseUtil {
     }
 
     /**
+     * 异步查询，查所有参数的历史数据
+     *
+     * @param number 最新时间往前推 n 条数据
+     * @return 返回数据集合，必须回调
+     */
+    public static void getLatestOverall(int number, AsyncOperationListener asyncOperationListener) {
+        AsyncSession asyncSession = BaseApplication.getDaoSession().startAsyncSession();
+        asyncSession.setListener(asyncOperationListener);
+        asyncSession.queryList(BaseApplication.getDaoSession().getOverallDataBeanDao().queryBuilder().
+                orderDesc(OverallDataBeanDao.Properties.Timestamp).limit(number).build());
+    }
+
+    /**
      * 同步查询，查预警消息的历史数据
      * 这里查询越界不会报错，仅返回可查询最大值
      *

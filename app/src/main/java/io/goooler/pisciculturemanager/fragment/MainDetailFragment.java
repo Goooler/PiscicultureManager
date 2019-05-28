@@ -3,24 +3,32 @@ package io.goooler.pisciculturemanager.fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONException;
-import com.alibaba.fastjson.JSONObject;
 import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+import org.greenrobot.greendao.async.AsyncOperation;
+import org.greenrobot.greendao.async.AsyncOperationListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import io.goooler.pisciculturemanager.R;
-import io.goooler.pisciculturemanager.base.BaseApplication;
 import io.goooler.pisciculturemanager.base.BaseFragment;
 import io.goooler.pisciculturemanager.model.Constants;
+import io.goooler.pisciculturemanager.model.EventType;
+import io.goooler.pisciculturemanager.model.OverallDataBean;
+import io.goooler.pisciculturemanager.util.DatabaseUtil;
+import io.goooler.pisciculturemanager.util.EventBusUtil;
 import io.goooler.pisciculturemanager.view.LineChartView;
+
 
 /**
  * 首页第二个 fragment
@@ -31,6 +39,7 @@ public class MainDetailFragment extends BaseFragment {
     private List<Entry> entries = new ArrayList<>();
 
     private OnFragmentInteractionListener mListener;
+    private Handler handler;
 
     public MainDetailFragment() {
     }
@@ -45,14 +54,17 @@ public class MainDetailFragment extends BaseFragment {
     @Override
     protected void initView(View rootView) {
         super.initView(rootView);
-        createTestChartData();
-        chartView = new LineChartView(rootView, R.id.chart, entries);
-        chartView.draw();
+        entries.add(new Entry(0, 0));
+        chartView = rootView.findViewById(R.id.chart);
+        chartView.setData(new LineData(new LineDataSet(entries, Constants.LABLE)));
+        chartView.invalidate();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBusUtil.register(this);
+        handler = new Handler();
     }
 
     @Override
@@ -88,21 +100,38 @@ public class MainDetailFragment extends BaseFragment {
         mListener = null;
     }
 
-    //生成一组数据绘制折线图，用于测试
-    private void createTestChartData() {
-        try {
-            JSONArray jsonArray = JSON.parseObject(BaseApplication.readJsonFromAssets(Constants.LINECHART_TEST_JSON)).
-                    getJSONArray(Constants.COORDINATES);
-            for (int i = 0; i < jsonArray.size(); i++) {
-                JSONObject object = (JSONObject) jsonArray.get(i);
-                entries.add(new Entry(object.getFloat(Constants.X), object.getFloat(Constants.Y)));
-            }
-        } catch (JSONException e) {
-        }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBusUtil.unregister(this);
+        handler.removeCallbacksAndMessages(null);
     }
 
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(EventType eventType) {
+        if (eventType.isSameOne(EventType.OVERALL_TO_DETAIL)) {
+            DatabaseUtil.getLatestOverall(Constants.LATEST_24, new AsyncOperationListener() {
+                @Override
+                public void onAsyncOperationCompleted(AsyncOperation operation) {
+                    entries.clear();
+                    List<OverallDataBean> beans = (List<OverallDataBean>) operation.getResult();
+                    for (int i = beans.size() - 1; i >= 0; i--) {
+                        entries.add(new Entry(beans.get(i).getDateFloat(),
+                                beans.get(i).getValueFloat((Integer) eventType.message)));
+                    }
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            chartView.notifyDataSetChanged();
+                        }
+                    });
+                }
+            });
+        }
     }
 }

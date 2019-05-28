@@ -42,4 +42,6 @@ public class Constants {
     public static final int PH_POS = 2;
     public static final int NITROGEN_POS = 3;
     public static final int NITRITE_POS = 4;
+    //最近的24条数据
+    public static final int LATEST_24 = 24;
 }

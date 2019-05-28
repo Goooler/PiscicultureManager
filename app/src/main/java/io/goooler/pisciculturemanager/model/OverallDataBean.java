@@ -120,7 +120,35 @@ public class OverallDataBean {
         return JSONObject.toJSONString(this);
     }
 
-    public String getDate() {
-        return DateUtil.timestampToDate(timestamp);
+    public String getDateString() {
+        return DateUtil.timestampToDateString(timestamp);
+    }
+
+    public float getDateFloat() {
+        return DateUtil.timestampToDateFloat(timestamp);
+    }
+
+    public float getValueFloat(int index) {
+        double value = 0;
+        switch (index) {
+            case Constants.OXYGEN_POS:
+                value = oxygen;
+                break;
+            case Constants.TEMPERATURE_POS:
+                value = temperature;
+                break;
+            case Constants.PH_POS:
+                value = ph;
+                break;
+            case Constants.NITROGEN_POS:
+                value = nitrogen;
+                break;
+            case Constants.NITRITE_POS:
+                value = nitrite;
+                break;
+            default:
+                break;
+        }
+        return Float.valueOf(value + Constants.NULL_STRING);
     }
 }

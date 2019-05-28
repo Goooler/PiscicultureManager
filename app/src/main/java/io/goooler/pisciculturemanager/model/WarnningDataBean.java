@@ -109,8 +109,8 @@ public class WarnningDataBean {
         return JSONObject.toJSONString(this);
     }
 
-    public String getDate() {
-        return DateUtil.timestampToDate(timestamp);
+    public String getDateString() {
+        return DateUtil.timestampToDateString(timestamp);
     }
 
     public String getDescription() {

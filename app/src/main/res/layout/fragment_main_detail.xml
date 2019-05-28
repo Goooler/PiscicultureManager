@@ -7,6 +7,7 @@
     tools:context=".activity.MainActivity">
 
     <TextView
+        android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/global_20"
@@ -17,13 +18,15 @@
         app:layout_constraintHeight_percent="0.12"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.github.mikephil.charting.charts.LineChart
+    <io.goooler.pisciculturemanager.view.LineChartView
         android:id="@+id/chart"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="@dimen/global_10"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginLeft="@dimen/global_10"
+        android:layout_marginRight="@dimen/global_10"
+        android:layout_marginTop="@dimen/global_20"
+        app:layout_constraintTop_toBottomOf="@id/title"
         app:layout_constraintHeight_default="percent"
-        app:layout_constraintHeight_percent="0.8" />
+        app:layout_constraintHeight_percent="0.7" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

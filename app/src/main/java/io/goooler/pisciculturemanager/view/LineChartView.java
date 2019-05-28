@@ -1,65 +1,36 @@
 package io.goooler.pisciculturemanager.view;
 
-import android.view.View;
+import android.content.Context;
+import android.util.AttributeSet;
 
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.Description;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
 
-import java.util.ArrayList;
-import java.util.List;
+public class LineChartView extends LineChart {
 
-import io.goooler.pisciculturemanager.model.Constants;
-
-/**
- * 对 LineChart 的简单封装，统一绘制出图表的风格和交互
- */
-
-public class LineChartView {
-    private LineChart chart;
-    private List<Entry> entries = new ArrayList<>();
-
-    public LineChartView(View rootView, int resId) {
-        chart = rootView.findViewById(resId);
+    public LineChartView(Context context) {
+        super(context);
     }
 
-    public LineChartView(View rootView, int resId, List<Entry> entries) {
-        chart = rootView.findViewById(resId);
-        this.entries = entries;
+    public LineChartView(Context context, AttributeSet attrs) {
+        super(context, attrs);
     }
 
-    public void setEntries(List<Entry> entries) {
-        this.entries = entries;
+    public LineChartView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
     }
 
-    public void setDescription(String tag) {
-        Description description = chart.getDescription();
-        description.setEnabled(true);
-        description.setText(tag);
+    @Override
+    public void invalidate() {
+        initAttrs();
+        super.invalidate();
     }
 
-    public void notifyDatasetChanged(List<Entry> entries) {
-
-    }
-
-    public void draw() {
-        setChartAttr(new LineDataSet(entries, Constants.LABLE));
-    }
-
-    private void setAxisAttr() {
-        XAxis xAxis = chart.getXAxis();
-
-    }
-
-    private void setChartAttr(LineDataSet dataSet) {
-        chart.setData(new LineData(dataSet));
-        chart.setDragEnabled(true);
-        chart.setScaleEnabled(true);
-        chart.setPinchZoom(true);
-        //最后的绘制方法
-        chart.invalidate();
+    /**
+     * 各种属性参数在绘制之前设定，方便样式统一
+     */
+    private void initAttrs() {
+        setDragEnabled(true);
+        setScaleEnabled(true);
+        setPinchZoom(true);
     }
 }

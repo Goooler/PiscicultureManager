@@ -25,7 +25,6 @@ import io.goooler.pisciculturemanager.R;
 import io.goooler.pisciculturemanager.adapter.OverallRecyclerViewAdapter;
 import io.goooler.pisciculturemanager.base.BaseApplication;
 import io.goooler.pisciculturemanager.base.BaseFragment;
-import io.goooler.pisciculturemanager.model.Constants;
 import io.goooler.pisciculturemanager.model.EventType;
 import io.goooler.pisciculturemanager.model.OverallDataBean;
 import io.goooler.pisciculturemanager.model.OverallSingleBean;
@@ -134,25 +133,10 @@ public class MainOverallFragment extends BaseFragment implements
 
     @Override
     public void onItemClick(View view, int position) {
-        switch (position) {
-            case Constants.OXYGEN_POS:
-
-                break;
-            case Constants.TEMPERATURE_POS:
-
-                break;
-            case Constants.PH_POS:
-
-                break;
-            case Constants.NITROGEN_POS:
-
-                break;
-            case Constants.NITRITE_POS:
-
-                break;
-            default:
-                break;
-        }
+        //通知 MainActivity 切换 fragment
+        EventBusUtil.post(new EventType(EventType.SUCCEED, EventType.OVERALL_TO_MAIN, null));
+        //通知 MainDetailFragment 切换数据
+        EventBusUtil.post(new EventType(EventType.SUCCEED, EventType.OVERALL_TO_DETAIL, new Integer(position)));
     }
 
     /**

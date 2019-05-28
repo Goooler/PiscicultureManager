@@ -41,7 +41,7 @@ public class NotificationRecyclerViewAdapter extends RecyclerView.Adapter<Notifi
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         if (position <= beans.size()) {
             holder.itemView.setTag(position);
-            holder.titleTxt.setText(beans.get(position).getDate());
+            holder.titleTxt.setText(beans.get(position).getDateString());
             holder.valueTxt.setText(beans.get(position).getDescription());
         }
     }

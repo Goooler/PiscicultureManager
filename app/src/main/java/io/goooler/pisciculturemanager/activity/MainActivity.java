@@ -9,6 +9,9 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,8 +25,10 @@ import io.goooler.pisciculturemanager.fragment.MainNotificationFragment;
 import io.goooler.pisciculturemanager.fragment.MainOverallFragment;
 import io.goooler.pisciculturemanager.fragment.MainPersonFragment;
 import io.goooler.pisciculturemanager.model.Constants;
+import io.goooler.pisciculturemanager.model.EventType;
 import io.goooler.pisciculturemanager.service.RequestService;
 import io.goooler.pisciculturemanager.util.CalculateUtil;
+import io.goooler.pisciculturemanager.util.EventBusUtil;
 import io.goooler.pisciculturemanager.util.ResUtil;
 
 public class MainActivity extends BaseActivity implements
@@ -56,6 +61,7 @@ public class MainActivity extends BaseActivity implements
 
         //初始化 MainActivity 之后 直接开启一个 service 处理网络请求等操作
         startService(new Intent(this, RequestService.class));
+        EventBusUtil.register(this);
     }
 
     /**
@@ -114,5 +120,18 @@ public class MainActivity extends BaseActivity implements
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBusUtil.unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(EventType eventType) {
+        if (eventType.isSameOne(EventType.OVERALL_TO_MAIN)) {
+            gotoPage(Constants.DETAIL_FRAGMENT_ID);
+        }
     }
 }

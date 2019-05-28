@@ -20,6 +20,10 @@ public class EventType {
     public static final int SERVICE_TO_OVERALL = 100;
     // MainOverallFragment 下拉刷新触发请求，交给 Service 处理
     public static final int OVERALL_TO_SERVICE = 101;
+    //从首页总览数据跳转到详情页面查看统计图
+    public static final int OVERALL_TO_DETAIL = 102;
+    //从首页总览数据跳转到 MainActivity
+    public static final int OVERALL_TO_MAIN = 103;
 
     public int statusCode;
     public int messageCode;
