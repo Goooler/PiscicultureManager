@@ -23,7 +23,6 @@ import java.util.List;
 
 import io.goooler.pisciculturemanager.R;
 import io.goooler.pisciculturemanager.adapter.OverallRecyclerViewAdapter;
-import io.goooler.pisciculturemanager.base.BaseApplication;
 import io.goooler.pisciculturemanager.base.BaseFragment;
 import io.goooler.pisciculturemanager.model.EventType;
 import io.goooler.pisciculturemanager.model.OverallDataBean;
@@ -33,6 +32,7 @@ import io.goooler.pisciculturemanager.util.EventBusUtil;
 import io.goooler.pisciculturemanager.util.RequestUtil;
 import io.goooler.pisciculturemanager.util.ResUtil;
 import io.goooler.pisciculturemanager.util.ServiceRequestUtil;
+import io.goooler.pisciculturemanager.util.ToastUtil;
 import okhttp3.Response;
 
 /**
@@ -209,9 +209,9 @@ public class MainOverallFragment extends BaseFragment implements
                 dataBean = (OverallDataBean) eventType.message;
                 fillDataToList();
                 recyclerViewAdapter.notifyDataSetChanged();
-                BaseApplication.showToast(R.string.data_refreshed);
+                ToastUtil.showToast(R.string.data_refreshed);
             } else {
-                BaseApplication.showToast(R.string.data_no_refreshed);
+                ToastUtil.showToast(R.string.data_no_refreshed);
             }
             refreshLayout.finishRefresh();
         }

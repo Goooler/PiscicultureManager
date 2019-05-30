@@ -5,7 +5,6 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Build;
-import android.os.Handler;
 import android.os.IBinder;
 
 import androidx.annotation.RequiresApi;
@@ -31,6 +30,7 @@ import io.goooler.pisciculturemanager.util.NotificationUtil;
 import io.goooler.pisciculturemanager.util.RequestUtil;
 import io.goooler.pisciculturemanager.util.ResUtil;
 import io.goooler.pisciculturemanager.util.ServiceRequestUtil;
+import io.goooler.pisciculturemanager.util.ToastUtil;
 import okhttp3.Response;
 
 /**
@@ -44,7 +44,6 @@ public class RequestService extends Service {
     //AlarmManager 系统定时服务，效果好于其它定时任务
     private AlarmManager alarmManager;
     private PendingIntent syncIntent;
-    private Handler handler;
 
     public RequestService() {
     }
@@ -59,7 +58,6 @@ public class RequestService extends Service {
     public void onCreate() {
         super.onCreate();
         EventBusUtil.register(this);
-        handler = new Handler();
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         syncIntent = PendingIntent.getService(this, Constants.SERVICE_REQUEST_CODE,
                 new Intent(this, RequestService.class), PendingIntent.FLAG_UPDATE_CURRENT);
@@ -77,7 +75,6 @@ public class RequestService extends Service {
         super.onDestroy();
         EventBusUtil.unregister(this);
         stopCronSync();
-        handler.removeCallbacksAndMessages(null);
     }
 
     /**
@@ -125,7 +122,7 @@ public class RequestService extends Service {
             @Override
             public void response(Response rawRseponse, String jsonString) {
                 if (rawRseponse.isSuccessful()) {
-                    BaseApplication.showToast(R.string.data_updated);
+                    ToastUtil.showToast(R.string.data_updated);
                 }
             }
         });
@@ -193,7 +190,7 @@ public class RequestService extends Service {
                 //size 不为0说明过滤出超标参数，然后切换主线程发送通知
                 if (warnningDataBeans.size() != 0) {
                     DatabaseUtil.insert(warnningDataBeans);
-                    handler.post(new Runnable() {
+                    BaseApplication.getHandler().post(new Runnable() {
                         @Override
                         public void run() {
                             String title = ResUtil.getString(R.string.quality_warnning);

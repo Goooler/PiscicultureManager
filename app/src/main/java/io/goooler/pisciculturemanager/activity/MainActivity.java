@@ -19,7 +19,6 @@ import io.goooler.pisciculturemanager.R;
 import io.goooler.pisciculturemanager.adapter.MainFragmentPagerAdapter;
 import io.goooler.pisciculturemanager.base.ActivityCollector;
 import io.goooler.pisciculturemanager.base.BaseActivity;
-import io.goooler.pisciculturemanager.base.BaseApplication;
 import io.goooler.pisciculturemanager.fragment.MainDetailFragment;
 import io.goooler.pisciculturemanager.fragment.MainNotificationFragment;
 import io.goooler.pisciculturemanager.fragment.MainOverallFragment;
@@ -30,6 +29,7 @@ import io.goooler.pisciculturemanager.service.RequestService;
 import io.goooler.pisciculturemanager.util.CalculateUtil;
 import io.goooler.pisciculturemanager.util.EventBusUtil;
 import io.goooler.pisciculturemanager.util.ResUtil;
+import io.goooler.pisciculturemanager.util.SpUtil;
 
 public class MainActivity extends BaseActivity implements
         MainOverallFragment.OnFragmentInteractionListener,
@@ -112,7 +112,7 @@ public class MainActivity extends BaseActivity implements
     @Override
     public void onBackPressed() {
         //确保已登录的用户按返回键时直接退出应用
-        if (BaseApplication.getUserInfoState().isSaved()) {
+        if (SpUtil.getUserInfoState().isSaved()) {
             ActivityCollector.finishAll();
         }
     }

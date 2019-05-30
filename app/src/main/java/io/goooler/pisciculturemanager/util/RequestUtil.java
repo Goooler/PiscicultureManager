@@ -5,7 +5,6 @@ import android.os.Looper;
 import java.io.IOException;
 
 import io.goooler.pisciculturemanager.R;
-import io.goooler.pisciculturemanager.base.BaseApplication;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -80,14 +79,18 @@ public class RequestUtil {
         });
     }
 
-    //请求失败直接弹出 toast 提示失败
+    /**
+     * 请求失败直接弹出 toast 提示失败
+     */
     private static void showToast() {
         Looper.prepare();
-        BaseApplication.showToast(R.string.request_failed);
+        ToastUtil.showToast(R.string.request_failed);
         Looper.loop();
     }
 
-    //请求成功将返回的源 response 直接回调给发起方
+    /**
+     * 请求成功将返回的源 response 直接回调给发起方
+     */
     private static void sendCallback(Response response, RequestListener listener) {
         if (response.isSuccessful()) {
             String jsonString = null;
@@ -100,6 +103,12 @@ public class RequestUtil {
     }
 
     public interface RequestListener<T> {
+        /**
+         * 自定义要回调给发起放大的数据类型
+         *
+         * @param rawRseponse 原始的 response
+         * @param jsonString  body string
+         */
         void response(Response rawRseponse, String jsonString);
     }
 }

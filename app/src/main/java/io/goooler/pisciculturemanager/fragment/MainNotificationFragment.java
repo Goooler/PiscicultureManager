@@ -3,7 +3,6 @@ package io.goooler.pisciculturemanager.fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +23,7 @@ import java.util.List;
 
 import io.goooler.pisciculturemanager.R;
 import io.goooler.pisciculturemanager.adapter.NotificationRecyclerViewAdapter;
+import io.goooler.pisciculturemanager.base.BaseApplication;
 import io.goooler.pisciculturemanager.base.BaseFragment;
 import io.goooler.pisciculturemanager.model.EventType;
 import io.goooler.pisciculturemanager.model.WarnningDataBean;
@@ -39,8 +39,6 @@ public class MainNotificationFragment extends BaseFragment implements
     private RecyclerView recyclerView;
     private NotificationRecyclerViewAdapter recyclerViewAdapter;
     private RecyclerView.LayoutManager layoutManager;
-
-    private Handler handler;
 
     private List<WarnningDataBean> warnningDataBeans;
     //默认显示最新10条数据
@@ -58,7 +56,6 @@ public class MainNotificationFragment extends BaseFragment implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBusUtil.register(this);
-        handler = new Handler();
     }
 
     @Override
@@ -112,7 +109,6 @@ public class MainNotificationFragment extends BaseFragment implements
     public void onDestroy() {
         super.onDestroy();
         EventBusUtil.unregister(this);
-        handler.removeCallbacksAndMessages(null);
     }
 
     @Override
@@ -133,7 +129,7 @@ public class MainNotificationFragment extends BaseFragment implements
         DatabaseUtil.getLatestWarnning(queryNumber, new AsyncOperationListener() {
             @Override
             public void onAsyncOperationCompleted(AsyncOperation operation) {
-                handler.post(new Runnable() {
+                BaseApplication.getHandler().post(new Runnable() {
                     @Override
                     public void run() {
                         warnningDataBeans.addAll((List<WarnningDataBean>) operation.getResult());

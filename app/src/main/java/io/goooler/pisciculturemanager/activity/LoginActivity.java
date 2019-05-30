@@ -11,10 +11,11 @@ import android.widget.TextView;
 import io.goooler.pisciculturemanager.R;
 import io.goooler.pisciculturemanager.base.ActivityCollector;
 import io.goooler.pisciculturemanager.base.BaseActivity;
-import io.goooler.pisciculturemanager.base.BaseApplication;
 import io.goooler.pisciculturemanager.model.Constants;
 import io.goooler.pisciculturemanager.model.UserInfoStateBean;
 import io.goooler.pisciculturemanager.util.DatabaseUtil;
+import io.goooler.pisciculturemanager.util.SpUtil;
+import io.goooler.pisciculturemanager.util.ToastUtil;
 
 /**
  * 管理登录的页面，记住登录状态后直接跳转 MainActivity
@@ -54,7 +55,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     //验证是否已经登录，已登录直接跳转到 MainActivity
     private void skipLogin() {
-        if (BaseApplication.getUserInfoState().isSaved()) {
+        if (SpUtil.getUserInfoState().isSaved()) {
             startActivity(new Intent(this, MainActivity.class));
         }
     }
@@ -62,17 +63,17 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     //登录时验证用户名和密码
     private void verify(String username, String password) {
         if (Constants.NULL_STRING.equals(password) || Constants.NULL_STRING.equals(username)) {
-            BaseApplication.showToast(R.string.login_missed);
+            ToastUtil.showToast(R.string.login_missed);
         } else {
             if (!DatabaseUtil.haveTheUser(username)) {
-                BaseApplication.showToast(R.string.login_none);
+                ToastUtil.showToast(R.string.login_none);
             } else {
                 if (DatabaseUtil.verifyUser(username, password)) {
-                    BaseApplication.setUserInfoState(new UserInfoStateBean(username, true));
+                    SpUtil.setUserInfoState(new UserInfoStateBean(username, true));
                     initOverallDB();
                     startActivity(new Intent(this, MainActivity.class));
                 } else {
-                    BaseApplication.showToast(R.string.login_failed);
+                    ToastUtil.showToast(R.string.login_failed);
                 }
             }
         }
@@ -81,23 +82,23 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     //创建新用户，将信息加入数据库
     private void addUser(String username, String password) {
         if (Constants.NULL_STRING.equals(password)) {
-            BaseApplication.showToast(R.string.register_nopasswd);
+            ToastUtil.showToast(R.string.register_nopasswd);
             return;
         }
         if (!DatabaseUtil.haveTheUser(username)) {
             //没有重复则新建用户
             DatabaseUtil.addUser(username, password);
-            BaseApplication.showToast(R.string.register_succeed);
+            ToastUtil.showToast(R.string.register_succeed);
         } else {
-            BaseApplication.showToast(R.string.register_duplicated);
+            ToastUtil.showToast(R.string.register_duplicated);
         }
     }
 
     //初始化主数据库，仅在第一次运行的时候初始化
     private void initOverallDB() {
-        if (BaseApplication.isFirstRun()) {
+        if (SpUtil.isFirstRun()) {
             DatabaseUtil.initDatabase();
-            BaseApplication.setFirstRunState(false);
+            SpUtil.setFirstRunState(false);
         }
     }
 

@@ -12,10 +12,10 @@ import android.widget.TextView;
 
 import io.goooler.pisciculturemanager.R;
 import io.goooler.pisciculturemanager.activity.LoginActivity;
-import io.goooler.pisciculturemanager.base.BaseApplication;
 import io.goooler.pisciculturemanager.base.BaseFragment;
 import io.goooler.pisciculturemanager.model.UserInfoStateBean;
 import io.goooler.pisciculturemanager.util.ResUtil;
+import io.goooler.pisciculturemanager.util.SpUtil;
 import io.goooler.pisciculturemanager.view.PersonInfoCardView;
 
 /**
@@ -64,7 +64,7 @@ public class MainPersonFragment extends BaseFragment implements View.OnClickList
         String[] titles = ResUtil.getStringArray(R.array.main_person_card_title);
         String[] logos = ResUtil.getStringArray(R.array.main_person_card_logo);
 
-        username = BaseApplication.getUserInfoState().getUsername();
+        username = SpUtil.getUserInfoState().getUsername();
         usernameTxt.setText(username);
         passwordCard.setContent(titles[0], logos[0]);
         feedbackCard.setContent(titles[1], logos[1]);
@@ -110,7 +110,7 @@ public class MainPersonFragment extends BaseFragment implements View.OnClickList
         } else if (v == infoCard) {
 
         } else if (v == logoutCard) {
-            BaseApplication.setUserInfoState(new UserInfoStateBean(username, false));
+            SpUtil.setUserInfoState(new UserInfoStateBean(username, false));
             startActivity(new Intent(getContext(), LoginActivity.class));
         }
     }

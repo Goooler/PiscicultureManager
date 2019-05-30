@@ -3,7 +3,6 @@ package io.goooler.pisciculturemanager.fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.goooler.pisciculturemanager.R;
+import io.goooler.pisciculturemanager.base.BaseApplication;
 import io.goooler.pisciculturemanager.base.BaseFragment;
 import io.goooler.pisciculturemanager.model.Constants;
 import io.goooler.pisciculturemanager.model.EventType;
@@ -39,7 +39,6 @@ public class MainDetailFragment extends BaseFragment {
     private List<Entry> entries = new ArrayList<>();
 
     private OnFragmentInteractionListener mListener;
-    private Handler handler;
 
     public MainDetailFragment() {
     }
@@ -64,7 +63,6 @@ public class MainDetailFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBusUtil.register(this);
-        handler = new Handler();
     }
 
     @Override
@@ -104,7 +102,6 @@ public class MainDetailFragment extends BaseFragment {
     public void onDestroy() {
         super.onDestroy();
         EventBusUtil.unregister(this);
-        handler.removeCallbacksAndMessages(null);
     }
 
     public interface OnFragmentInteractionListener {
@@ -124,7 +121,7 @@ public class MainDetailFragment extends BaseFragment {
                         entries.add(new Entry(beans.get(i).getDateFloat(),
                                 beans.get(i).getValueFloat((Integer) eventType.message)));
                     }
-                    handler.post(new Runnable() {
+                    BaseApplication.getHandler().post(new Runnable() {
                         @Override
                         public void run() {
                             chartView.notifyDataSetChanged();

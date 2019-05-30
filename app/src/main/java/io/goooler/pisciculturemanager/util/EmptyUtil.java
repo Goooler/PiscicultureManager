@@ -7,6 +7,7 @@ import java.util.List;
  */
 public class EmptyUtil {
 
+
     public static boolean isEmpty(String string) {
         return string == null || string.length() == 0;
     }

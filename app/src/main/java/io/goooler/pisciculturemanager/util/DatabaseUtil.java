@@ -20,8 +20,8 @@ import io.goooler.pisciculturemanager.model.WarnningDataBeanDao;
 
 public class DatabaseUtil {
 
-    public static final int LATEST_ONE = 1;
-    public static final int FIRST_INDEX = 0;
+    private static final int LATEST_ONE = 1;
+    private static final int FIRST_INDEX = 0;
 
     public static void initDatabase() {
         insert(new OverallDataBean());
