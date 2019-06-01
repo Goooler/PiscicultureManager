@@ -21,17 +21,17 @@ import okhttp3.Response;
 
 public class RequestUtil {
     /**
-     * @constant DEFAULT_URL    通用的请求地址前缀，工程比较简单只使用了一个服务器，不用考虑切换服务器的问题
-     * @constant ALL_DATA   请求所有数据的地址，查询参数是获取最近条数
-     * @constant SOME_DATA   请求部分数据的地址，查询参数是获取从指定 id 之后的所有条目
-     * @constant ADD_ONE    向表中添加一条数据的接口，
+     * DEFAULT_URL    通用的请求地址前缀，工程比较简单只使用了一个服务器，不用考虑切换服务器的问题
+     * ALL_DATA   请求所有数据的地址，查询参数是获取最近条数
+     * SOME_DATA   请求部分数据的地址，查询参数是获取从指定 id 之后的所有条目
+     * ADD_ONE    向表中添加一条数据的接口，
      */
 
-    public static final String DEFAULT_URL = "http://149.129.123.191/piscicultureManager/mananger/";
-    public static final String CONTENT_TYPE_JSON = "application/json; charset=utf-8";
-    public static final String ALL_DATA = "allData/%s";
-    public static final String SOME_DATA = "some/%s";
-    public static final String ADD_ONE = "add";
+    private static final String DEFAULT_URL = "http://120.77.41.191:4000/piscicultureManager/";
+    private static final String CONTENT_TYPE_JSON = "application/json; charset=utf-8";
+    static final String ALL_DATA = "allData/%s";
+    static final String SOME_DATA = "some/%s";
+    static final String ADD_ONE = "add";
 
     /**
      * 普通 get 异步请求
@@ -102,7 +102,7 @@ public class RequestUtil {
         }
     }
 
-    public interface RequestListener<T> {
+    public interface RequestListener {
         /**
          * 自定义要回调给发起放大的数据类型
          *
