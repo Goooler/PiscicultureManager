@@ -17,7 +17,6 @@ import io.goooler.pisciculturemanager.model.WarnningDataBean;
  * 第三个 fragment 上的 recyclerView 的适配器
  * TODO: 有时间考虑做个适配器的封装
  */
-
 public class NotificationRecyclerViewAdapter extends RecyclerView.Adapter<NotificationRecyclerViewAdapter.ViewHolder>
         implements View.OnClickListener {
     private List<WarnningDataBean> beans;

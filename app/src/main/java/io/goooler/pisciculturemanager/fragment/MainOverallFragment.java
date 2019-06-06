@@ -2,6 +2,7 @@ package io.goooler.pisciculturemanager.fragment;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,15 +32,12 @@ import io.goooler.pisciculturemanager.model.OverallDataBean;
 import io.goooler.pisciculturemanager.model.OverallSingleBean;
 import io.goooler.pisciculturemanager.util.DatabaseUtil;
 import io.goooler.pisciculturemanager.util.EventBusUtil;
-import io.goooler.pisciculturemanager.util.RequestUtil;
-import io.goooler.pisciculturemanager.util.ResUtil;
-import io.goooler.pisciculturemanager.util.ServiceRequestUtil;
 import io.goooler.pisciculturemanager.util.ToastUtil;
-import okhttp3.Response;
 
 /**
  * 首页第一个 fragment
  */
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class MainOverallFragment extends BaseFragment implements
         OverallRecyclerViewAdapter.OnItemClickListener, OnRefreshListener, View.OnClickListener {
     private RefreshLayout refreshLayout;
@@ -49,15 +48,12 @@ public class MainOverallFragment extends BaseFragment implements
 
     private List<OverallSingleBean> singleBeans = new ArrayList<>();
     private OverallDataBean dataBean;
-    private String[] beanNames;
     //EditText 可编辑状态
     private boolean editable;
-    private boolean editing;
 
     private OnFragmentInteractionListener mListener;
 
     public MainOverallFragment() {
-        // Required empty public constructor
     }
 
     public static MainOverallFragment newInstance(String param1, String param2) {
@@ -73,7 +69,6 @@ public class MainOverallFragment extends BaseFragment implements
         EventBusUtil.register(this);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -87,10 +82,6 @@ public class MainOverallFragment extends BaseFragment implements
         refreshLayout = find(rootView, R.id.overall_refresh);
         modifyBtn = find(rootView, R.id.modify);
         cancelBtn = find(rootView, R.id.cancel);
-        dataBean = DatabaseUtil.getLatestOverallOne();
-        //列表填充数据初始化
-        beanNames = ResUtil.getStringArray(R.array.overall_data_single);
-        fillDataToList();
         recyclerViewAdapter = new OverallRecyclerViewAdapter(singleBeans);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(recyclerViewAdapter);
@@ -101,13 +92,11 @@ public class MainOverallFragment extends BaseFragment implements
         return rootView;
     }
 
-    /**
-     * 这一页数据默认为0，刷新通过 service 刷新后 eventBus 通知
-     * TODO: 以后考虑可以更改逻辑
-     */
     @Override
     public void loadData() {
-
+        dataBean = DatabaseUtil.getLatestOverallOne();
+        fillDataToList(dataBean);
+        recyclerViewAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -115,9 +104,6 @@ public class MainOverallFragment extends BaseFragment implements
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
         }
     }
 
@@ -138,7 +124,7 @@ public class MainOverallFragment extends BaseFragment implements
         //通知 MainActivity 切换 fragment
         EventBusUtil.post(new EventType(EventType.SUCCEED, EventType.OVERALL_TO_MAIN, null));
         //通知 MainDetailFragment 切换数据
-        EventBusUtil.post(new EventType(EventType.SUCCEED, EventType.OVERALL_TO_DETAIL, new Integer(position)));
+        EventBusUtil.post(new EventType(EventType.SUCCEED, EventType.OVERALL_TO_DETAIL, position));
     }
 
     /**
@@ -146,7 +132,7 @@ public class MainOverallFragment extends BaseFragment implements
      */
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-        EventBusUtil.post(new EventType(EventType.SUCCEED, EventType.OVERALL_TO_SERVICE, null));
+        EventBusUtil.post(new EventType(EventType.SUCCEED, EventType.OVERALL_TO_SERVICE_PULL, null));
     }
 
     @Override
@@ -171,20 +157,13 @@ public class MainOverallFragment extends BaseFragment implements
      * 提交修改的表单数据
      */
     private void commitChanges() {
-        dataBean = new OverallDataBean(System.currentTimeMillis() / 1000,
+        dataBean = new OverallDataBean(
                 getViewHolder(0).getValue(),
                 getViewHolder(1).getValue(),
                 getViewHolder(2).getValue(),
                 getViewHolder(3).getValue(),
                 getViewHolder(4).getValue());
-        ServiceRequestUtil.postSync(dataBean, new RequestUtil.RequestListener() {
-            @Override
-            public void response(Response rawRseponse, String jsonString) {
-                if (rawRseponse.isSuccessful()) {
-                    EventBusUtil.post(new EventType(EventType.SUCCEED, EventType.OVERALL_TO_SERVICE, null));
-                }
-            }
-        });
+        EventBusUtil.post(new EventType(EventType.SUCCEED, EventType.OVERALL_TO_SERVICE_POST, dataBean));
     }
 
     private OverallRecyclerViewAdapter.ViewHolder getViewHolder(int position) {
@@ -200,7 +179,6 @@ public class MainOverallFragment extends BaseFragment implements
     }
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 
@@ -209,7 +187,7 @@ public class MainOverallFragment extends BaseFragment implements
         if (eventType.isSameOne(EventType.SERVICE_TO_OVERALL)) {
             if (eventType.isSuccessful()) {
                 dataBean = (OverallDataBean) eventType.message;
-                fillDataToList();
+                fillDataToList(dataBean);
                 recyclerViewAdapter.notifyDataSetChanged();
                 ToastUtil.showToast(R.string.data_refreshed);
             } else {
@@ -220,17 +198,13 @@ public class MainOverallFragment extends BaseFragment implements
     }
 
     /**
-     * 把 OverallDataBean 各个成员填充
-     * TODO: 这里可以考虑使用 OverallDataBean 数据类型替代，有时间改过来
+     * 把 OverallDataBean 各个成员填充到 singleBeans
      */
-    private void fillDataToList() {
+    private void fillDataToList(OverallDataBean bean) {
+        //列表填充数据初始化
         singleBeans.clear();
-        singleBeans.add(new OverallSingleBean(beanNames[0], dataBean.getOxygen()));
-        singleBeans.add(new OverallSingleBean(beanNames[1], dataBean.getTemperature()));
-        singleBeans.add(new OverallSingleBean(beanNames[2], dataBean.getPh()));
-        singleBeans.add(new OverallSingleBean(beanNames[3], dataBean.getNitrogen()));
-        singleBeans.add(new OverallSingleBean(beanNames[4], dataBean.getNitrite()));
+        for (int i = 0; i < bean.getValueNames().length; i++) {
+            singleBeans.add(new OverallSingleBean(bean.getValueNames()[i], bean.getValues()[i]));
+        }
     }
-
-
 }

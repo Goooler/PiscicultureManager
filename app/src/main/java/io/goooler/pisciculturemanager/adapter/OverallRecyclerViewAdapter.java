@@ -17,7 +17,6 @@ import io.goooler.pisciculturemanager.model.OverallSingleBean;
 /**
  * 第一个 fragment 上的 recyclerView 的适配器
  */
-
 public class OverallRecyclerViewAdapter extends RecyclerView.Adapter<OverallRecyclerViewAdapter.ViewHolder>
         implements View.OnClickListener {
     private List<OverallSingleBean> beans;
@@ -40,7 +39,7 @@ public class OverallRecyclerViewAdapter extends RecyclerView.Adapter<OverallRecy
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        if (i <= beans.size()) {
+        if (beans != null && i <= beans.size()) {
             viewHolder.itemView.setTag(i);
             viewHolder.titleTxt.setText(beans.get(i).getName());
             viewHolder.valueTxt.setText(beans.get(i).getValueString());
@@ -50,7 +49,7 @@ public class OverallRecyclerViewAdapter extends RecyclerView.Adapter<OverallRecy
 
     @Override
     public int getItemCount() {
-        return beans.size();
+        return beans != null ? beans.size() : 0;
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {

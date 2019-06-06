@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
  */
 
 public abstract class BaseFragment extends Fragment {
+    private boolean viewCreated;
 
     public <T extends View> T find(View view, int resId) {
         return (T) view.findViewById(resId);
@@ -21,7 +22,9 @@ public abstract class BaseFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return initView(inflater, container, savedInstanceState);
+        View view = initView(inflater, container, savedInstanceState);
+        viewCreated = true;
+        return view;
     }
 
     /**
@@ -30,7 +33,7 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
+        if (viewCreated && isVisibleToUser) {
             loadData();
         }
     }
@@ -41,7 +44,7 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (getUserVisibleHint()) {
+        if (viewCreated && getUserVisibleHint()) {
             loadData();
         }
     }

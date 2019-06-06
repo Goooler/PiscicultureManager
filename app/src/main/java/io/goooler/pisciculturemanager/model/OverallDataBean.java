@@ -1,17 +1,24 @@
 package io.goooler.pisciculturemanager.model;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import com.alibaba.fastjson.JSONObject;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 
+import io.goooler.pisciculturemanager.R;
 import io.goooler.pisciculturemanager.util.DateUtil;
+import io.goooler.pisciculturemanager.util.ResUtil;
 
 /**
  * 所有参数集合，同时也是主表
  */
 
+@RequiresApi(api = Build.VERSION_CODES.O)
 @Entity
 public class OverallDataBean {
 
@@ -27,6 +34,14 @@ public class OverallDataBean {
     public OverallDataBean() {
     }
 
+    public OverallDataBean(double oxygen, double temperature, double ph, double nitrogen, double nitrite) {
+        this.timestamp = DateUtil.getCurrentTimeMillis();
+        this.oxygen = oxygen;
+        this.temperature = temperature;
+        this.ph = ph;
+        this.nitrogen = nitrogen;
+        this.nitrite = nitrite;
+    }
 
     /**
      * 多个用途，同时是主数据库的表，关联 GreenDao
@@ -126,6 +141,14 @@ public class OverallDataBean {
 
     public float getDateFloat() {
         return DateUtil.timestampToDateFloat(timestamp);
+    }
+
+    public String[] getValueNames() {
+        return ResUtil.getStringArray(R.array.overall_data_single);
+    }
+
+    public double[] getValues() {
+        return new double[]{oxygen, temperature, ph, nitrogen, nitrite};
     }
 
     /**

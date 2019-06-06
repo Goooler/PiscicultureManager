@@ -2,6 +2,7 @@ package io.goooler.pisciculturemanager.fragment;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
@@ -36,6 +38,7 @@ import io.goooler.pisciculturemanager.view.LineChartView;
 /**
  * 首页第二个 fragment
  */
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class MainDetailFragment extends BaseFragment {
     private LineChartView chartView;
 
@@ -97,7 +100,6 @@ public class MainDetailFragment extends BaseFragment {
         EventBusUtil.register(this);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -109,9 +111,6 @@ public class MainDetailFragment extends BaseFragment {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
         }
     }
 
@@ -128,7 +127,6 @@ public class MainDetailFragment extends BaseFragment {
     }
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 

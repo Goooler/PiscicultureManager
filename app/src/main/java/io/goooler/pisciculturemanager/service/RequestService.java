@@ -36,7 +36,7 @@ import okhttp3.Response;
 /**
  * 请求方法都封装到 service 后台处理，同时处理数据库插入
  */
-
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class RequestService extends Service {
 
     private List<OverallDataBean> beans;
@@ -50,7 +50,6 @@ public class RequestService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
@@ -63,7 +62,6 @@ public class RequestService extends Service {
                 new Intent(this, RequestService.class), PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         startCronSync();
@@ -121,9 +119,7 @@ public class RequestService extends Service {
         ServiceRequestUtil.postSync(dataBean, new RequestUtil.RequestListener() {
             @Override
             public void response(Response rawRseponse, String jsonString) {
-                if (rawRseponse.isSuccessful()) {
-                    ToastUtil.showToast(R.string.data_updated);
-                }
+                ToastUtil.showToast(R.string.data_updated);
             }
         });
     }
@@ -131,7 +127,6 @@ public class RequestService extends Service {
     /**
      * 开启 service 同时开启一个定时定时同步数据任务
      */
-    @RequiresApi(api = Build.VERSION_CODES.M)
     private void startCronSync() {
         syncDatabase();
         alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,
@@ -145,6 +140,8 @@ public class RequestService extends Service {
     /**
      * 过滤返回结果，有超标的情况直接发送通知
      * 这里的数据处理过程放入子线程
+     * <p>
+     * TODO: 封装线程池隐式调用子线程
      *
      * @param beans 传入接收的所有参数
      */
@@ -211,9 +208,14 @@ public class RequestService extends Service {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(EventType eventType) {
         switch (eventType.messageCode) {
-            case EventType.OVERALL_TO_SERVICE:
+            case EventType.OVERALL_TO_SERVICE_PULL:
                 if (eventType.isSuccessful()) {
                     syncDatabase();
+                }
+                break;
+            case EventType.OVERALL_TO_SERVICE_POST:
+                if (eventType.isSuccessful()) {
+                    updateParams((OverallDataBean) eventType.message);
                 }
                 break;
             default:

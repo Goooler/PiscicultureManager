@@ -1,11 +1,15 @@
 package io.goooler.pisciculturemanager.util;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import io.goooler.pisciculturemanager.model.OverallDataBean;
 
 /**
  * RequestService 中需要用到的几个方法封装
  */
-
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class ServiceRequestUtil {
     private static final int LATEST_ONE = 1;
 

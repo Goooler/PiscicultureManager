@@ -2,8 +2,10 @@ package io.goooler.pisciculturemanager.activity;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
@@ -32,6 +34,7 @@ import io.goooler.pisciculturemanager.util.EventBusUtil;
 import io.goooler.pisciculturemanager.util.ResUtil;
 import io.goooler.pisciculturemanager.util.SpUtil;
 
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class MainActivity extends BaseActivity implements
         MainOverallFragment.OnFragmentInteractionListener,
         MainDetailFragment.OnFragmentInteractionListener,
@@ -106,7 +109,7 @@ public class MainActivity extends BaseActivity implements
     private void gotoPage(int fragmentId) {
         if (fragmentId > Constants.NULL_FRAGMENT_ID) {
             //首页四个 fragment 的区间
-            if (CalculateUtil.isBetween(0, 3, fragmentId)) {
+            if (CalculateUtil.isBetween(Constants.OVERALL_FRAGMENT_ID, Constants.PERSON_FRAGMENT_ID, fragmentId)) {
                 //切换到对应的 tab
                 tabLayout.getTabAt(fragmentId).select();
             }

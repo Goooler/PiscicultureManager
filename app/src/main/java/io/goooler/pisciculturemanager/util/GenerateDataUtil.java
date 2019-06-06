@@ -1,7 +1,8 @@
 package io.goooler.pisciculturemanager.util;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
 
 import io.goooler.pisciculturemanager.model.OverallDataBean;
 
@@ -10,15 +11,15 @@ import io.goooler.pisciculturemanager.model.OverallDataBean;
  * 主要目的是提供给统计折线图展示
  * 服务端生成数据，客户端请求生成的数据
  * 或者本地用代码生成，Sqlite 存取
+ * TODO: 这里数据生成的函数很粗，生成过程不够优雅，值得改进
  */
-
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class GenerateDataUtil {
 
     public static OverallDataBean generate() {
         //时间戳精度要求不高
-        long timestamp = System.currentTimeMillis() / 1000;
-        int hour = timeToHour(timestamp);
-        return new OverallDataBean(timestamp, oxygenValue(hour), temperatureValue(hour),
+        int hour = DateUtil.timestampToHourInt();
+        return new OverallDataBean(oxygenValue(hour), temperatureValue(hour),
                 phValue(hour), nitrogenValue(hour), nitriteValue(hour));
     }
 
@@ -77,11 +78,5 @@ public class GenerateDataUtil {
             nextValue = Math.random() * 0.55;
         }
         return nextValue;
-    }
-
-    //将时间戳换算成时间，仅取用时单位
-    private static int timeToHour(long timestamp) {
-        String hourString = new SimpleDateFormat("HH").format(new Date(timestamp));
-        return Integer.valueOf(hourString);
     }
 }
