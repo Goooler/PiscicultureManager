@@ -23,7 +23,6 @@ android {
     dexOptions {
         javaMaxHeapSize "1g"
     }
-
     greendao {
         schemaVersion 1
     }

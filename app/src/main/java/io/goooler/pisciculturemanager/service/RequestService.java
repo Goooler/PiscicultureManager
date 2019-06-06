@@ -72,9 +72,9 @@ public class RequestService extends Service {
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         EventBusUtil.unregister(this);
         stopCronSync();
+        super.onDestroy();
     }
 
     /**

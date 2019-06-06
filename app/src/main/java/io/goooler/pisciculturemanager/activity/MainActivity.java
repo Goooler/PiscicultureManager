@@ -19,6 +19,7 @@ import io.goooler.pisciculturemanager.R;
 import io.goooler.pisciculturemanager.adapter.MainFragmentPagerAdapter;
 import io.goooler.pisciculturemanager.base.ActivityCollector;
 import io.goooler.pisciculturemanager.base.BaseActivity;
+import io.goooler.pisciculturemanager.base.BaseApplication;
 import io.goooler.pisciculturemanager.fragment.MainDetailFragment;
 import io.goooler.pisciculturemanager.fragment.MainNotificationFragment;
 import io.goooler.pisciculturemanager.fragment.MainOverallFragment;
@@ -75,7 +76,9 @@ public class MainActivity extends BaseActivity implements
         gotoPage(intent.getIntExtra(Constants.GOTO_FRAGMENT_ID, Constants.NULL_FRAGMENT_ID));
     }
 
-    //初始化首页的几个 fragment 加入 viewPager
+    /**
+     * 初始化首页的几个 fragment 加入 viewPager
+     */
     private void initFragments() {
         overallFragment = new MainOverallFragment();
         detailFragment = new MainDetailFragment();
@@ -87,7 +90,8 @@ public class MainActivity extends BaseActivity implements
         fragmentList.add(notificationFragment);
         fragmentList.add(personFragment);
         tabTitles = ResUtil.getStringArray(R.array.main_tab_titles);
-        fragmentPagerAdapter = new MainFragmentPagerAdapter(getSupportFragmentManager(), fragmentList, tabTitles);
+        fragmentPagerAdapter = new MainFragmentPagerAdapter(
+                getSupportFragmentManager(), fragmentList, tabTitles);
         viewPager.setAdapter(fragmentPagerAdapter);
         //viewPager可以缓存的fragment页数，保障生命周期完整
         viewPager.setOffscreenPageLimit(3);
@@ -124,8 +128,9 @@ public class MainActivity extends BaseActivity implements
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         EventBusUtil.unregister(this);
+        BaseApplication.destroyGlobalObject();
+        super.onDestroy();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

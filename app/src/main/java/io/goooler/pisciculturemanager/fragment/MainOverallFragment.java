@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -72,15 +73,6 @@ public class MainOverallFragment extends BaseFragment implements
         EventBusUtil.register(this);
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_main_overall, container, false);
-        initView(rootView);
-        return rootView;
-    }
-
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -89,8 +81,8 @@ public class MainOverallFragment extends BaseFragment implements
     }
 
     @Override
-    protected void initView(View rootView) {
-        super.initView(rootView);
+    public View initView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_main_overall, container, false);
         recyclerView = find(rootView, R.id.overall_recycler);
         refreshLayout = find(rootView, R.id.overall_refresh);
         modifyBtn = find(rootView, R.id.modify);
@@ -106,6 +98,16 @@ public class MainOverallFragment extends BaseFragment implements
         cancelBtn.setOnClickListener(this);
         recyclerViewAdapter.setOnItemClickListener(this);
         refreshLayout.setOnRefreshListener(this);
+        return rootView;
+    }
+
+    /**
+     * 这一页数据默认为0，刷新通过 service 刷新后 eventBus 通知
+     * TODO: 以后考虑可以更改逻辑
+     */
+    @Override
+    public void loadData() {
+
     }
 
     @Override
@@ -127,8 +129,8 @@ public class MainOverallFragment extends BaseFragment implements
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         EventBusUtil.unregister(this);
+        super.onDestroy();
     }
 
     @Override

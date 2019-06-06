@@ -40,8 +40,9 @@ public class BaseApplication extends Application {
 
     /**
      * 应用结束时销毁全局对象
+     * 真机环境需要在 MainActivity 结束时执行
      */
-    private void destroyGlobalObject() {
+    public static void destroyGlobalObject() {
         handler.removeCallbacksAndMessages(null);
     }
 

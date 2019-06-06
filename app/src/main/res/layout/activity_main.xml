@@ -10,14 +10,13 @@
         android:id="@+id/main_tablayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/main_viewpager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="@+id/main_tablayout"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/global_60"
         app:layout_constraintTop_toBottomOf="@id/main_tablayout">
 
     </androidx.viewpager.widget.ViewPager>

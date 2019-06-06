@@ -7,6 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -51,27 +54,47 @@ public class MainDetailFragment extends BaseFragment {
     }
 
     @Override
-    protected void initView(View rootView) {
-        super.initView(rootView);
+    public View initView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_main_detail, container, false);
         entries.add(new Entry(0, 0));
         chartView = rootView.findViewById(R.id.chart);
         chartView.setData(new LineData(new LineDataSet(entries, Constants.LABLE)));
         chartView.invalidate();
+        return rootView;
+    }
+
+    /**
+     * 这一页默认不加载，
+     * TODO: 以后考虑可以更改逻辑
+     */
+    @Override
+    public void loadData() {
+    }
+
+    private void loadChartDataSet(int paramId) {
+        DatabaseUtil.getLatestOverall(Constants.LATEST_24, new AsyncOperationListener() {
+            @Override
+            public void onAsyncOperationCompleted(AsyncOperation operation) {
+                entries.clear();
+                List<OverallDataBean> beans = (List<OverallDataBean>) operation.getResult();
+                for (int i = beans.size() - 1; i >= 0; i--) {
+                    entries.add(new Entry(beans.get(i).getDateFloat(),
+                            beans.get(i).getValueFloat(paramId)));
+                }
+                BaseApplication.getHandler().post(new Runnable() {
+                    @Override
+                    public void run() {
+                        chartView.notifyDataSetChanged();
+                    }
+                });
+            }
+        });
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBusUtil.register(this);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_main_detail, container, false);
-        initView(rootView);
-        return rootView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -100,8 +123,8 @@ public class MainDetailFragment extends BaseFragment {
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         EventBusUtil.unregister(this);
+        super.onDestroy();
     }
 
     public interface OnFragmentInteractionListener {
@@ -112,23 +135,7 @@ public class MainDetailFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(EventType eventType) {
         if (eventType.isSameOne(EventType.OVERALL_TO_DETAIL)) {
-            DatabaseUtil.getLatestOverall(Constants.LATEST_24, new AsyncOperationListener() {
-                @Override
-                public void onAsyncOperationCompleted(AsyncOperation operation) {
-                    entries.clear();
-                    List<OverallDataBean> beans = (List<OverallDataBean>) operation.getResult();
-                    for (int i = beans.size() - 1; i >= 0; i--) {
-                        entries.add(new Entry(beans.get(i).getDateFloat(),
-                                beans.get(i).getValueFloat((Integer) eventType.message)));
-                    }
-                    BaseApplication.getHandler().post(new Runnable() {
-                        @Override
-                        public void run() {
-                            chartView.notifyDataSetChanged();
-                        }
-                    });
-                }
-            });
+            loadChartDataSet((int) eventType.message);
         }
     }
 }

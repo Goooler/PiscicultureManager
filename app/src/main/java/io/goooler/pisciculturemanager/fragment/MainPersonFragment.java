@@ -10,6 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import io.goooler.pisciculturemanager.R;
 import io.goooler.pisciculturemanager.activity.LoginActivity;
 import io.goooler.pisciculturemanager.base.BaseFragment;
@@ -44,16 +47,8 @@ public class MainPersonFragment extends BaseFragment implements View.OnClickList
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View initView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main_person, container, false);
-        initView(rootView);
-        return rootView;
-    }
-
-    @Override
-    protected void initView(View rootView) {
-        super.initView(rootView);
         avatarImg = find(rootView, R.id.avatar_img);
         usernameTxt = find(rootView, R.id.avatar_name);
         passwordCard = find(rootView, R.id.card_password);
@@ -75,6 +70,17 @@ public class MainPersonFragment extends BaseFragment implements View.OnClickList
         feedbackCard.setOnClickListener(this);
         infoCard.setOnClickListener(this);
         logoutCard.setOnClickListener(this);
+
+        return rootView;
+    }
+
+    /**
+     * 这一页默认不加载，
+     * TODO: 以后考虑可以更改逻辑
+     */
+    @Override
+    public void loadData() {
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -128,6 +128,12 @@ public class OverallDataBean {
         return DateUtil.timestampToDateFloat(timestamp);
     }
 
+    /**
+     * 获取各个参数对应的 double 转 float
+     *
+     * @param index
+     * @return
+     */
     public float getValueFloat(int index) {
         double value = 0;
         switch (index) {
