@@ -3,4 +3,8 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="linechart">#1a5cc0</color>
+    <color name="white">#ffffff</color>
+    <color name="e8f4ff">#e8f4ff</color>
+    <color name="alpha_35_black">#59000000</color>
 </resources>

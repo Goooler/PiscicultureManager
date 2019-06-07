@@ -5,26 +5,32 @@ import android.widget.Toast;
 import io.goooler.pisciculturemanager.base.BaseApplication;
 
 /**
- * Toast 显示工具
+ * Toast 简单封装，可在子线程直接使用
  */
 
 public class ToastUtil {
 
     /**
      * 默认长度 Toast.LENGTH_SHORT，
+     * TODO:子线程里直接 toast 的方法待验证
      *
      * @param text string 文本
      */
     public static void showToast(String text) {
-        Toast.makeText(BaseApplication.getContext(), text, Toast.LENGTH_SHORT).show();
+        BaseApplication.getHandler().post(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(BaseApplication.getContext(), text, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     /**
      * 默认长度 Toast.LENGTH_SHORT
      *
-     * @param stringId 资源文件文本
+     * @param stringId 文本资源 id
      */
     public static void showToast(int stringId) {
-        Toast.makeText(BaseApplication.getContext(), ResUtil.getString(stringId), Toast.LENGTH_SHORT).show();
+        showToast(ResUtil.getString(stringId));
     }
 }

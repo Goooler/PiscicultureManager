@@ -30,7 +30,6 @@ import io.goooler.pisciculturemanager.util.NotificationUtil;
 import io.goooler.pisciculturemanager.util.RequestUtil;
 import io.goooler.pisciculturemanager.util.ResUtil;
 import io.goooler.pisciculturemanager.util.ServiceRequestUtil;
-import io.goooler.pisciculturemanager.util.ToastUtil;
 import okhttp3.Response;
 
 /**
@@ -88,14 +87,14 @@ public class RequestService extends Service {
                         RequestDataBean.class).getBeans();
                 if (beans.size() != 0) {
                     //最新一条的数据返回给首页展示总览，
-                    EventBusUtil.post(new EventType(EventType.SUCCEED, EventType.SERVICE_TO_OVERALL,
+                    EventBusUtil.post(new EventType(EventType.SUCCEED, EventType.SERVICE_TO_OVERALL_GET,
                             beans.get(0)));
                     //所有回传的全部存入数据库，这里是异步操作
                     DatabaseUtil.insert(beans);
                     filterAndNotify(beans);
                 } else {
                     //回传 json 为空说明没有更新
-                    EventBusUtil.post(new EventType(EventType.FAILED, EventType.SERVICE_TO_OVERALL, null));
+                    EventBusUtil.post(new EventType(EventType.FAILED, EventType.SERVICE_TO_OVERALL_GET, null));
                 }
             }
         });
@@ -119,7 +118,7 @@ public class RequestService extends Service {
         ServiceRequestUtil.postSync(dataBean, new RequestUtil.RequestListener() {
             @Override
             public void response(Response rawRseponse, String jsonString) {
-                ToastUtil.showToast(R.string.data_updated);
+                EventBusUtil.post(new EventType(EventType.SUCCEED, EventType.SERVICE_TO_OVERALL_POST, null));
             }
         });
     }
@@ -159,27 +158,27 @@ public class RequestService extends Service {
                     double nitrogen = overallDataBean.getNitrogen();
                     double nitrite = overallDataBean.getNitrite();
                     if (CalculateUtil.isNotIn(5, 8, oxygen)) {
-                        warnningDataBeans.add(new WarnningDataBean(null,
+                        warnningDataBeans.add(new WarnningDataBean(
                                 overallDataBean.getTimestamp(), paramNames[0],
                                 overallDataBean.getOxygen(), unitNames[0]));
                     }
                     if (CalculateUtil.isNotIn(20, 40, temperature)) {
-                        warnningDataBeans.add(new WarnningDataBean(null,
+                        warnningDataBeans.add(new WarnningDataBean(
                                 overallDataBean.getTimestamp(), paramNames[1],
                                 overallDataBean.getTemperature(), unitNames[1]));
                     }
                     if (CalculateUtil.isNotIn(6.5, 8, ph)) {
-                        warnningDataBeans.add(new WarnningDataBean(null,
+                        warnningDataBeans.add(new WarnningDataBean(
                                 overallDataBean.getTimestamp(), paramNames[2],
                                 overallDataBean.getPh(), unitNames[2]));
                     }
                     if (CalculateUtil.isNotIn(0, 0.015, nitrogen)) {
-                        warnningDataBeans.add(new WarnningDataBean(null,
+                        warnningDataBeans.add(new WarnningDataBean(
                                 overallDataBean.getTimestamp(), paramNames[3],
                                 overallDataBean.getNitrogen(), unitNames[3]));
                     }
                     if (CalculateUtil.isNotIn(0, 0.5, nitrite)) {
-                        warnningDataBeans.add(new WarnningDataBean(null,
+                        warnningDataBeans.add(new WarnningDataBean(
                                 overallDataBean.getTimestamp(), paramNames[4],
                                 overallDataBean.getNitrite(), unitNames[4]));
                     }

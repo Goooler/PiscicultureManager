@@ -15,9 +15,8 @@ import io.goooler.pisciculturemanager.util.DateUtil;
 import io.goooler.pisciculturemanager.util.ResUtil;
 
 /**
- * 所有参数集合，同时也是主表
+ * 多个用途，同时是数据库的主表，关联 GreenDao
  */
-
 @RequiresApi(api = Build.VERSION_CODES.O)
 @Entity
 public class OverallDataBean {
@@ -44,7 +43,7 @@ public class OverallDataBean {
     }
 
     /**
-     * 多个用途，同时是主数据库的表，关联 GreenDao
+     * 所有参数集合，关联 GreenDao 主表
      *
      * @param id          主键，自增长
      * @param timestamp   时间戳
@@ -135,49 +134,21 @@ public class OverallDataBean {
         return JSONObject.toJSONString(this);
     }
 
-    public String getDateString() {
-        return DateUtil.timestampToDateString(timestamp);
+    public String getShortDateString() {
+        return DateUtil.timestampToShortDateString(timestamp);
     }
 
-    public float getDateFloat() {
-        return DateUtil.timestampToDateFloat(timestamp);
-    }
-
+    /**
+     * @return 各个参数对应的中文名的数组
+     */
     public String[] getValueNames() {
         return ResUtil.getStringArray(R.array.overall_data_single);
     }
 
+    /**
+     * @return 各个参数 double 数组
+     */
     public double[] getValues() {
         return new double[]{oxygen, temperature, ph, nitrogen, nitrite};
-    }
-
-    /**
-     * 获取各个参数对应的 double 转 float
-     *
-     * @param index
-     * @return
-     */
-    public float getValueFloat(int index) {
-        double value = 0;
-        switch (index) {
-            case Constants.OXYGEN_POS:
-                value = oxygen;
-                break;
-            case Constants.TEMPERATURE_POS:
-                value = temperature;
-                break;
-            case Constants.PH_POS:
-                value = ph;
-                break;
-            case Constants.NITROGEN_POS:
-                value = nitrogen;
-                break;
-            case Constants.NITRITE_POS:
-                value = nitrite;
-                break;
-            default:
-                break;
-        }
-        return Float.valueOf(value + Constants.NULL_STRING);
     }
 }

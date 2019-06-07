@@ -34,6 +34,13 @@ public class DateUtil {
     }
 
     /**
+     * @return 截取短日期，格式如 HH:mm
+     */
+    public static String timestampToShortDateString(Long timestamp) {
+        return timestampToDateString(timestamp).substring(11);
+    }
+
+    /**
      * 时间戳转日期字符串
      *
      * @param timestamp  注意10位的时间戳要补足成13位

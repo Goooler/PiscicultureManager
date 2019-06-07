@@ -106,7 +106,7 @@ public class MainActivity extends BaseActivity implements
      *
      * @param fragmentId 跳转页面的参数，-1为默认值不做任何处理
      */
-    private void gotoPage(int fragmentId) {
+    private void gotoPage(@Constants.FragmentId int fragmentId) {
         if (fragmentId > Constants.NULL_FRAGMENT_ID) {
             //首页四个 fragment 的区间
             if (CalculateUtil.isBetween(Constants.OVERALL_FRAGMENT_ID, Constants.PERSON_FRAGMENT_ID, fragmentId)) {

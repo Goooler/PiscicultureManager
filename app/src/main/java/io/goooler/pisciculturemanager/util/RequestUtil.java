@@ -1,7 +1,5 @@
 package io.goooler.pisciculturemanager.util;
 
-import android.os.Looper;
-
 import java.io.IOException;
 
 import io.goooler.pisciculturemanager.R;
@@ -45,7 +43,7 @@ public class RequestUtil {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                showToast();
+                ToastUtil.showToast(R.string.request_failed);
             }
 
             @Override
@@ -69,7 +67,7 @@ public class RequestUtil {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                showToast();
+                ToastUtil.showToast(R.string.request_failed);
             }
 
             @Override
@@ -77,15 +75,6 @@ public class RequestUtil {
                 sendCallback(response, listener);
             }
         });
-    }
-
-    /**
-     * 请求失败直接弹出 toast 提示失败
-     */
-    private static void showToast() {
-        Looper.prepare();
-        ToastUtil.showToast(R.string.request_failed);
-        Looper.loop();
     }
 
     /**
@@ -102,13 +91,41 @@ public class RequestUtil {
         }
     }
 
-    public interface RequestListener {
+    /**
+     * RequestListener 要实现的一个接口，
+     * 在其中可以实现匿名内部类重写时自由选择要回调的类型
+     * TODO：可以考虑加入泛型直接将 json 转对象
+     */
+    public interface RequestCallback {
+        /**
+         * @param rawRseponse 原始的 okhttp3.Response 不做任何处理
+         */
+        void response(Response rawRseponse);
+
+        /**
+         * @param jsonString 将 Response 的 body 转为字符串
+         */
+        void response(Response rawRseponse, String jsonString);
+    }
+
+    /**
+     * 请求结果回调给调用方的接口，可以让调用方自由选择要回调的类型
+     */
+    public static abstract class RequestListener implements RequestCallback {
+        @Override
+        public void response(Response rawRseponse) {
+
+        }
+
         /**
          * 自定义要回调给发起放大的数据类型
          *
          * @param rawRseponse 原始的 response
          * @param jsonString  body string
          */
-        void response(Response rawRseponse, String jsonString);
+        @Override
+        public void response(Response rawRseponse, String jsonString) {
+
+        }
     }
 }

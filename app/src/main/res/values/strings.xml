@@ -31,6 +31,7 @@
     <string name="some_data_over_standard">多个参数超标</string>
     <string name="current_value">当前值为：</string>
     <string name="param_overstandard">参数超标，此时量为：</string>
+    <string name="param_time">时间</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

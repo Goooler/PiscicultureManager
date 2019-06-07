@@ -1,5 +1,9 @@
 package io.goooler.pisciculturemanager.model;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import com.alibaba.fastjson.JSONObject;
 
 import org.greenrobot.greendao.annotation.Entity;
@@ -13,7 +17,7 @@ import io.goooler.pisciculturemanager.util.ResUtil;
 /**
  * 参数预警的几个指标，同时也是一张表
  */
-
+@RequiresApi(api = Build.VERSION_CODES.O)
 @Entity
 public class WarnningDataBean {
 
@@ -38,8 +42,7 @@ public class WarnningDataBean {
      * @param unit      参数的单位
      * @param content   保留字段，通知内容
      */
-    public WarnningDataBean(Long id, long timestamp, String paramName, double value, String unit) {
-        this.id = id;
+    public WarnningDataBean(long timestamp, String paramName, double value, String unit) {
         this.timestamp = timestamp;
         this.paramName = paramName;
         this.value = value;

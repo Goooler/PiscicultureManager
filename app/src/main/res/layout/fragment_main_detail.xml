@@ -19,14 +19,14 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <io.goooler.pisciculturemanager.view.LineChartView
-        android:id="@+id/chart"
+        android:id="@+id/line_chart"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginLeft="@dimen/global_10"
-        android:layout_marginRight="@dimen/global_10"
         android:layout_marginTop="@dimen/global_20"
-        app:layout_constraintTop_toBottomOf="@id/title"
+        android:layout_marginRight="@dimen/global_10"
         app:layout_constraintHeight_default="percent"
-        app:layout_constraintHeight_percent="0.7" />
+        app:layout_constraintHeight_percent="0.7"
+        app:layout_constraintTop_toBottomOf="@id/title" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

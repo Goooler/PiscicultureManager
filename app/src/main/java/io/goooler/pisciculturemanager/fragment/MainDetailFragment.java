@@ -12,10 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.greenrobot.greendao.async.AsyncOperation;
@@ -40,64 +36,61 @@ import io.goooler.pisciculturemanager.view.LineChartView;
  */
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class MainDetailFragment extends BaseFragment {
-    private LineChartView chartView;
-
-    private List<Entry> entries = new ArrayList<>();
+    private LineChartView lineChart;
 
     private OnFragmentInteractionListener mListener;
 
     public MainDetailFragment() {
     }
 
-    public static MainDetailFragment newInstance(String param1, String param2) {
-        MainDetailFragment fragment = new MainDetailFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBusUtil.register(this);
     }
 
     @Override
     public View initView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main_detail, container, false);
-        entries.add(new Entry(0, 0));
-        chartView = rootView.findViewById(R.id.chart);
-        chartView.setData(new LineData(new LineDataSet(entries, Constants.LABLE)));
-        chartView.invalidate();
+        lineChart = find(rootView, R.id.line_chart);
         return rootView;
     }
 
     /**
      * 这一页默认不加载，
-     * TODO: 以后考虑可以更改逻辑
+     * TODO: 以后可以考虑更改逻辑
      */
     @Override
     public void loadData() {
     }
 
-    private void loadChartDataSet(int paramId) {
+    /**
+     * 查询最近24条数据并绘制折线图
+     *
+     * @param position 参数对应的 id，也是 OverallFragment 页面上参数对应的位置
+     */
+    private void loadDataAndRenderChart(@Constants.ItemPosition int position) {
         DatabaseUtil.getLatestOverall(Constants.LATEST_24, new AsyncOperationListener() {
             @Override
             public void onAsyncOperationCompleted(AsyncOperation operation) {
-                entries.clear();
                 List<OverallDataBean> beans = (List<OverallDataBean>) operation.getResult();
-                for (int i = beans.size() - 1; i >= 0; i--) {
-                    entries.add(new Entry(beans.get(i).getDateFloat(),
-                            beans.get(i).getValueFloat(paramId)));
-                }
-                BaseApplication.getHandler().post(new Runnable() {
-                    @Override
-                    public void run() {
-                        chartView.notifyDataSetChanged();
+                if (beans.size() > 0) {
+                    List<String> xData = new ArrayList<>();
+                    List<String> yData = new ArrayList<>();
+                    String label = beans.get(0).getValueNames()[position];
+                    for (int i = beans.size() - 1; i >= 0; i--) {
+                        xData.add(beans.get(i).getShortDateString());
+                        yData.add(beans.get(i).getValues()[position] + Constants.NULL_STRING);
                     }
-                });
+                    BaseApplication.getHandler().post(new Runnable() {
+                        @Override
+                        public void run() {
+                            lineChart.setDataAndRender(xData, yData, label);
+                        }
+                    });
+                }
             }
         });
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EventBusUtil.register(this);
     }
 
     public void onButtonPressed(Uri uri) {
@@ -133,7 +126,7 @@ public class MainDetailFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(EventType eventType) {
         if (eventType.isSameOne(EventType.OVERALL_TO_DETAIL)) {
-            loadChartDataSet((int) eventType.message);
+            loadDataAndRenderChart((int) eventType.message);
         }
     }
 }

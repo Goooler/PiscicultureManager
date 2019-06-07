@@ -27,6 +27,7 @@ import java.util.List;
 import io.goooler.pisciculturemanager.R;
 import io.goooler.pisciculturemanager.adapter.OverallRecyclerViewAdapter;
 import io.goooler.pisciculturemanager.base.BaseFragment;
+import io.goooler.pisciculturemanager.model.Constants;
 import io.goooler.pisciculturemanager.model.EventType;
 import io.goooler.pisciculturemanager.model.OverallDataBean;
 import io.goooler.pisciculturemanager.model.OverallSingleBean;
@@ -120,7 +121,7 @@ public class MainOverallFragment extends BaseFragment implements
     }
 
     @Override
-    public void onItemClick(View view, int position) {
+    public void onItemClick(View view, @Constants.ItemPosition int position) {
         //通知 MainActivity 切换 fragment
         EventBusUtil.post(new EventType(EventType.SUCCEED, EventType.OVERALL_TO_MAIN, null));
         //通知 MainDetailFragment 切换数据
@@ -184,7 +185,7 @@ public class MainOverallFragment extends BaseFragment implements
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(EventType eventType) {
-        if (eventType.isSameOne(EventType.SERVICE_TO_OVERALL)) {
+        if (eventType.isSameOne(EventType.SERVICE_TO_OVERALL_GET)) {
             if (eventType.isSuccessful()) {
                 dataBean = (OverallDataBean) eventType.message;
                 fillDataToList(dataBean);
@@ -194,11 +195,15 @@ public class MainOverallFragment extends BaseFragment implements
                 ToastUtil.showToast(R.string.data_no_refreshed);
             }
             refreshLayout.finishRefresh();
+        } else if (eventType.isSameOne(EventType.SERVICE_TO_OVERALL_GET)) {
+            if (eventType.isSuccessful()) {
+                ToastUtil.showToast(R.string.data_updated);
+            }
         }
     }
 
     /**
-     * 把 OverallDataBean 各个成员填充到 singleBeans
+     * 把 overallDataBean 各个参数填充到 singleBeans
      */
     private void fillDataToList(OverallDataBean bean) {
         //列表填充数据初始化
