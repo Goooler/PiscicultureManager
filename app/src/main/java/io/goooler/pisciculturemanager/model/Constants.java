@@ -26,11 +26,13 @@ public class Constants {
     public static final String Y = "y";
     public static final String MIPMAP = "mipmap";
     // MainActivity 下发跳转
-    public static final String GOTO_FRAGMENT_ID = "goto_fragment_id";
+    public static final String GOTO_FRAGMENT_ID = "gotoFragmentId";
     //一小时包含的毫秒数
     public static final int ONE_HOUR_MILLISECONDS = 60 * 60 * 1000;
     //最近的24条数据
     public static final int LATEST_24 = 24;
+
+    public static final String ALTER_PASSWORD = "alterPassword";
 
     /**
      * PendingIntent 请求码

@@ -12,17 +12,11 @@ public class ToastUtil {
 
     /**
      * 默认长度 Toast.LENGTH_SHORT，
-     * TODO:子线程里直接 toast 的方法待验证
      *
      * @param text string 文本
      */
     public static void showToast(String text) {
-        BaseApplication.getHandler().post(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(BaseApplication.getContext(), text, Toast.LENGTH_SHORT).show();
-            }
-        });
+        Toast.makeText(BaseApplication.getContext(), text, Toast.LENGTH_SHORT).show();
     }
 
     /**

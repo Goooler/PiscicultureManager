@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import io.goooler.pisciculturemanager.R;
 import io.goooler.pisciculturemanager.activity.LoginActivity;
 import io.goooler.pisciculturemanager.base.BaseFragment;
+import io.goooler.pisciculturemanager.model.Constants;
 import io.goooler.pisciculturemanager.model.UserInfoStateBean;
 import io.goooler.pisciculturemanager.util.ResUtil;
 import io.goooler.pisciculturemanager.util.SpUtil;
@@ -106,7 +107,8 @@ public class MainPersonFragment extends BaseFragment implements View.OnClickList
     @Override
     public void onClick(View v) {
         if (v == passwordCard) {
-
+            startActivity(new Intent(getActivity(), LoginActivity.class).
+                    putExtra(Constants.ALTER_PASSWORD, true));
         } else if (v == feedbackCard) {
 
         } else if (v == infoCard) {

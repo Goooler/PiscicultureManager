@@ -82,7 +82,7 @@ public class RequestService extends Service {
     private void syncDatabase(long index) {
         ServiceRequestUtil.getFromIndex(index, new RequestUtil.RequestListener() {
             @Override
-            public void response(Response rawRseponse, String jsonString) {
+            public void response(Response rawResponse, String jsonString) {
                 List<OverallDataBean> beans = JsonUtil.parse(jsonString,
                         RequestDataBean.class).getBeans();
                 if (beans.size() != 0) {
@@ -117,7 +117,7 @@ public class RequestService extends Service {
     private void updateParams(OverallDataBean dataBean) {
         ServiceRequestUtil.postSync(dataBean, new RequestUtil.RequestListener() {
             @Override
-            public void response(Response rawRseponse, String jsonString) {
+            public void response(Response rawResponse, String jsonString) {
                 EventBusUtil.post(new EventType(EventType.SUCCEED, EventType.SERVICE_TO_OVERALL_POST, null));
             }
         });

@@ -3,6 +3,7 @@ package io.goooler.pisciculturemanager.util;
 import java.io.IOException;
 
 import io.goooler.pisciculturemanager.R;
+import io.goooler.pisciculturemanager.base.BaseApplication;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -13,8 +14,6 @@ import okhttp3.Response;
 
 /**
  * OkHttp 请求简单封装
- *
- * @constant 是对常量的注释
  */
 
 public class RequestUtil {
@@ -43,7 +42,7 @@ public class RequestUtil {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                ToastUtil.showToast(R.string.request_failed);
+                showFailToast();
             }
 
             @Override
@@ -67,7 +66,7 @@ public class RequestUtil {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                ToastUtil.showToast(R.string.request_failed);
+                showFailToast();
             }
 
             @Override
@@ -87,45 +86,54 @@ public class RequestUtil {
                 jsonString = response.body().string();
             } catch (IOException e) {
             }
+            listener.response(response);
             listener.response(response, jsonString);
         }
     }
 
     /**
-     * RequestListener 要实现的一个接口，
-     * 在其中可以实现匿名内部类重写时自由选择要回调的类型
-     * TODO：可以考虑加入泛型直接将 json 转对象
+     * 请求失败一律弹出 “请求失败” 提示，需要先切换到主线程
      */
-    public interface RequestCallback {
-        /**
-         * @param rawRseponse 原始的 okhttp3.Response 不做任何处理
-         */
-        void response(Response rawRseponse);
-
-        /**
-         * @param jsonString 将 Response 的 body 转为字符串
-         */
-        void response(Response rawRseponse, String jsonString);
+    private static void showFailToast() {
+        BaseApplication.getHandler().post(new Runnable() {
+            @Override
+            public void run() {
+                ToastUtil.showToast(R.string.request_failed);
+            }
+        });
     }
 
     /**
-     * 请求结果回调给调用方的接口，可以让调用方自由选择要回调的类型
+     * 请求结果回调给调用方的接口，可以让调用方实现匿名内部类时自由选择要覆写的方法
+     * 覆写的方法决定回调的类型
      */
     public static abstract class RequestListener implements RequestCallback {
         @Override
-        public void response(Response rawRseponse) {
+        public void response(Response rawResponse) {
 
         }
+
+        @Override
+        public void response(Response rawResponse, String jsonString) {
+
+        }
+    }
+
+    /**
+     * RequestListener 要实现的一个接口，定义几种返回类型
+     */
+    public interface RequestCallback {
+        /**
+         * @param rawResponse 原始的 okhttp3.Response 不做任何处理
+         */
+        void response(Response rawResponse);
 
         /**
-         * 自定义要回调给发起放大的数据类型
+         * 自定义要回调给发起方的数据类型
          *
-         * @param rawRseponse 原始的 response
+         * @param rawResponse 原始的 response
          * @param jsonString  body string
          */
-        @Override
-        public void response(Response rawRseponse, String jsonString) {
-
-        }
+        void response(Response rawResponse, String jsonString);
     }
 }

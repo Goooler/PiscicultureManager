@@ -1,5 +1,9 @@
 package io.goooler.pisciculturemanager.util;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import org.greenrobot.greendao.async.AsyncOperationListener;
 import org.greenrobot.greendao.async.AsyncSession;
 
@@ -17,7 +21,7 @@ import io.goooler.pisciculturemanager.model.WarnningDataBeanDao;
  * 对 GreenDao 的简单封装，以便统一异常处理等操作
  * 现在有几个特定的方法，还有通用的异步插入方法，通配泛型
  */
-
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class DatabaseUtil {
 
     private static final int LATEST_ONE = 1;
@@ -33,7 +37,7 @@ public class DatabaseUtil {
     public static boolean haveTheUser(String username) {
         return BaseApplication.getDaoSession().getUserBeanDao().
                 queryBuilder().where(UserBeanDao.Properties.Username.
-                eq(username)).build().list().size() != 0;
+                eq(username.trim())).build().list().size() != 0;
     }
 
     /**
@@ -46,19 +50,28 @@ public class DatabaseUtil {
     }
 
     /**
+     * 修改用户信息，同步调用
+     * 目前用作密码修改
+     */
+    public static void alterUser(String username, String password) {
+        BaseApplication.getDaoSession().getUserBeanDao().
+                update(new UserBean(username.trim(), password.trim()));
+    }
+
+    /**
      * 获取用户的信息，同步调用
      */
     public static UserBean getUser(String username) {
         return BaseApplication.getDaoSession().getUserBeanDao().
                 queryBuilder().where(UserBeanDao.Properties.Username.
-                eq(username)).build().list().get(0);
+                eq(username.trim())).build().list().get(0);
     }
 
     /**
      * 验证用户名和密码是否匹配，同步调用
      */
     public static boolean verifyUser(String username, String password) {
-        return getUser(username).getPassword().equals(password);
+        return getUser(username.trim()).getPassword().equals(password.trim());
     }
 
     /**

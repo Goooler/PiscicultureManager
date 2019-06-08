@@ -164,6 +164,8 @@ public class MainOverallFragment extends BaseFragment implements
                 getViewHolder(2).getValue(),
                 getViewHolder(3).getValue(),
                 getViewHolder(4).getValue());
+        //多一步要让列表上的数据更新为修改后的，因为后面在 setEditable 有 notifyDataSetChanged
+        fillDataToList(dataBean);
         EventBusUtil.post(new EventType(EventType.SUCCEED, EventType.OVERALL_TO_SERVICE_POST, dataBean));
     }
 
@@ -183,25 +185,6 @@ public class MainOverallFragment extends BaseFragment implements
         void onFragmentInteraction(Uri uri);
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEventMainThread(EventType eventType) {
-        if (eventType.isSameOne(EventType.SERVICE_TO_OVERALL_GET)) {
-            if (eventType.isSuccessful()) {
-                dataBean = (OverallDataBean) eventType.message;
-                fillDataToList(dataBean);
-                recyclerViewAdapter.notifyDataSetChanged();
-                ToastUtil.showToast(R.string.data_refreshed);
-            } else {
-                ToastUtil.showToast(R.string.data_no_refreshed);
-            }
-            refreshLayout.finishRefresh();
-        } else if (eventType.isSameOne(EventType.SERVICE_TO_OVERALL_GET)) {
-            if (eventType.isSuccessful()) {
-                ToastUtil.showToast(R.string.data_updated);
-            }
-        }
-    }
-
     /**
      * 把 overallDataBean 各个参数填充到 singleBeans
      */
@@ -210,6 +193,32 @@ public class MainOverallFragment extends BaseFragment implements
         singleBeans.clear();
         for (int i = 0; i < bean.getValueNames().length; i++) {
             singleBeans.add(new OverallSingleBean(bean.getValueNames()[i], bean.getValues()[i]));
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(EventType eventType) {
+        switch (eventType.messageCode) {
+            case EventType.SERVICE_TO_OVERALL_GET:
+                if (eventType.isSuccessful()) {
+                    //成功代表数据已刷新
+                    dataBean = (OverallDataBean) eventType.message;
+                    fillDataToList(dataBean);
+                    recyclerViewAdapter.notifyDataSetChanged();
+                    ToastUtil.showToast(R.string.data_refreshed);
+                } else {
+                    //失败代表暂无更新
+                    ToastUtil.showToast(R.string.data_no_refreshed);
+                }
+                refreshLayout.finishRefresh();
+                break;
+            case EventType.SERVICE_TO_OVERALL_POST:
+                if (eventType.isSuccessful()) {
+                    ToastUtil.showToast(R.string.data_updated);
+                }
+                break;
+            default:
+                break;
         }
     }
 }
