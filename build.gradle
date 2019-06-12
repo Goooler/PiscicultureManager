@@ -1,0 +1,33 @@
+plugins {
+    id 'java'
+}
+
+repositories {
+    mavenLocal()
+    maven { url 'https://maven.aliyun.com/repository/spring' }
+    maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
+    maven { url 'https://maven.aliyun.com/nexus/content/repositories/jcenter' }
+    maven { url 'https://maven.aliyun.com/repository/google' }
+    maven { url 'https://maven.aliyun.com/repository/central' }
+    maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter:2.1.5.RELEASE'
+    implementation 'org.springframework.boot:spring-boot-starter-web:2.1.5.RELEASE'
+    implementation 'org.projectlombok:lombok:1.18.8'
+    implementation 'com.baomidou:mybatis-plus-boot-starter:3.1.1'
+    implementation 'com.spring4all:swagger-spring-boot-starter:1.8.0.RELEASE'
+    implementation 'com.alibaba:fastjson:1.2.58'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.1.5.RELEASE'
+    runtime 'mysql:mysql-connector-java:8.0.13'
+}
+
+group = 'io.goooler.PiscicultureManager'
+version = '0.0.1-SNAPSHOT'
+description = 'pisciculture'
+sourceCompatibility = '1.8'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
