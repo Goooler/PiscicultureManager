@@ -95,10 +95,9 @@ public class DatabaseUtil {
     }
 
     /**
-     * 异步查询，查所有参数的历史数据
+     * 异步查询，查所有参数的历史数据，返回数据集合，必须回调
      *
      * @param number 最新时间往前推 n 条数据
-     * @return 返回数据集合，必须回调
      */
     public static void getLatestOverall(int number, AsyncOperationListener asyncOperationListener) {
         AsyncSession asyncSession = BaseApplication.getDaoSession().startAsyncSession();
@@ -120,11 +119,10 @@ public class DatabaseUtil {
     }
 
     /**
-     * 异步查询，查预警消息的历史数据，同步查询太多会阻塞主线程
+     * 异步查询，查预警消息的历史数据，同步查询太多会阻塞主线程，返回数据集合，必须回调
      * 这里查询越界不会报错，仅返回可查询最大值
      *
      * @param number 最新时间往前推 n 条数据
-     * @return 返回数据集合，必须回调
      */
     public static void getLatestWarnning(int number, AsyncOperationListener asyncOperationListener) {
         AsyncSession asyncSession = BaseApplication.getDaoSession().startAsyncSession();

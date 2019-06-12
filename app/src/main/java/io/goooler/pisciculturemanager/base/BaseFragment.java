@@ -16,7 +16,7 @@ import androidx.fragment.app.Fragment;
 public abstract class BaseFragment extends Fragment {
     private boolean viewCreated;
 
-    public <T extends View> T find(View view, int resId) {
+    protected <T extends View> T find(View view, int resId) {
         return (T) view.findViewById(resId);
     }
 
@@ -49,7 +49,7 @@ public abstract class BaseFragment extends Fragment {
         }
     }
 
-    public abstract View initView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState);
+    protected abstract View initView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState);
 
-    public abstract void loadData();
+    protected abstract void loadData();
 }

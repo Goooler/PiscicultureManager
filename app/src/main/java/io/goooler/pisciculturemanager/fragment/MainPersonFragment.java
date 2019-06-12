@@ -3,6 +3,7 @@ package io.goooler.pisciculturemanager.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import io.goooler.pisciculturemanager.R;
 import io.goooler.pisciculturemanager.activity.LoginActivity;
@@ -25,9 +27,8 @@ import io.goooler.pisciculturemanager.view.PersonInfoCardView;
 /**
  * 首页第四个 fragment
  */
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class MainPersonFragment extends BaseFragment implements View.OnClickListener {
-    private ImageView avatarImg;
-    private TextView usernameTxt;
     private PersonInfoCardView passwordCard;
     private PersonInfoCardView feedbackCard;
     private PersonInfoCardView infoCard;
@@ -50,8 +51,8 @@ public class MainPersonFragment extends BaseFragment implements View.OnClickList
     @Override
     public View initView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main_person, container, false);
-        avatarImg = find(rootView, R.id.avatar_img);
-        usernameTxt = find(rootView, R.id.avatar_name);
+        ImageView avatarImg = find(rootView, R.id.avatar_img);
+        TextView usernameTxt = find(rootView, R.id.avatar_name);
         passwordCard = find(rootView, R.id.card_password);
         feedbackCard = find(rootView, R.id.card_feedback);
         infoCard = find(rootView, R.id.card_info);

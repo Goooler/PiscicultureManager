@@ -40,18 +40,9 @@ public class MainActivity extends BaseActivity implements
         MainDetailFragment.OnFragmentInteractionListener,
         MainPersonFragment.OnFragmentInteractionListener,
         MainNotificationFragment.OnFragmentInteractionListener {
-    private MainOverallFragment overallFragment;
-    private MainDetailFragment detailFragment;
-    private MainNotificationFragment notificationFragment;
-    private MainPersonFragment personFragment;
 
     private ViewPager viewPager;
     private TabLayout tabLayout;
-
-    private MainFragmentPagerAdapter fragmentPagerAdapter;
-
-    private List<Fragment> fragmentList;
-    private String[] tabTitles;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,17 +74,17 @@ public class MainActivity extends BaseActivity implements
      * 初始化首页的几个 fragment 加入 viewPager
      */
     private void initFragments() {
-        overallFragment = new MainOverallFragment();
-        detailFragment = new MainDetailFragment();
-        notificationFragment = new MainNotificationFragment();
-        personFragment = new MainPersonFragment();
-        fragmentList = new ArrayList<>();
+        MainOverallFragment overallFragment = new MainOverallFragment();
+        MainDetailFragment detailFragment = new MainDetailFragment();
+        MainNotificationFragment notificationFragment = new MainNotificationFragment();
+        MainPersonFragment personFragment = new MainPersonFragment();
+        List<Fragment> fragmentList = new ArrayList<>();
         fragmentList.add(overallFragment);
         fragmentList.add(detailFragment);
         fragmentList.add(notificationFragment);
         fragmentList.add(personFragment);
-        tabTitles = ResUtil.getStringArray(R.array.main_tab_titles);
-        fragmentPagerAdapter = new MainFragmentPagerAdapter(
+        String[] tabTitles = ResUtil.getStringArray(R.array.main_tab_titles);
+        MainFragmentPagerAdapter fragmentPagerAdapter = new MainFragmentPagerAdapter(
                 getSupportFragmentManager(), fragmentList, tabTitles);
         viewPager.setAdapter(fragmentPagerAdapter);
         //viewPager可以缓存的fragment页数，保障生命周期完整

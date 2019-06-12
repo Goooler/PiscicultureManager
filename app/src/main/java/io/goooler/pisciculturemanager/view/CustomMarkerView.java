@@ -1,5 +1,6 @@
 package io.goooler.pisciculturemanager.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.widget.TextView;
 
@@ -14,6 +15,7 @@ import java.util.List;
 
 import io.goooler.pisciculturemanager.R;
 
+@SuppressLint("ViewConstructor")
 public class CustomMarkerView extends MarkerView {
 
     private TextView tvContent, tvTime;

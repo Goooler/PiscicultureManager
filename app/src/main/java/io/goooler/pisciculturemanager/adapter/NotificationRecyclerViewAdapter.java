@@ -1,11 +1,13 @@
 package io.goooler.pisciculturemanager.adapter;
 
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -17,6 +19,7 @@ import io.goooler.pisciculturemanager.model.WarnningDataBean;
  * 第三个 fragment 上的 recyclerView 的适配器
  * TODO: 有时间考虑做个适配器的封装
  */
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class NotificationRecyclerViewAdapter extends RecyclerView.Adapter<NotificationRecyclerViewAdapter.ViewHolder>
         implements View.OnClickListener {
     private List<WarnningDataBean> beans;

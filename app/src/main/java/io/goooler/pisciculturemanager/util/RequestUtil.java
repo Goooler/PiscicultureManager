@@ -1,5 +1,9 @@
 package io.goooler.pisciculturemanager.util;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import java.io.IOException;
 
 import io.goooler.pisciculturemanager.R;
@@ -15,7 +19,7 @@ import okhttp3.Response;
 /**
  * OkHttp 请求简单封装
  */
-
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class RequestUtil {
     /**
      * DEFAULT_URL    通用的请求地址前缀，工程比较简单只使用了一个服务器，不用考虑切换服务器的问题

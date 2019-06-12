@@ -26,7 +26,6 @@ import io.goooler.pisciculturemanager.util.ToastUtil;
  */
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
-    private ImageView titleImg;
     private TextView welcomeTxt;
     private EditText usernameTxt;
     private EditText passwordTxt;
@@ -41,7 +40,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        titleImg = find(R.id.login_title_img);
+        ImageView titleImg = find(R.id.login_title_img);
         welcomeTxt = find(R.id.welcome);
         usernameTxt = find(R.id.login_username);
         passwordTxt = find(R.id.login_password);

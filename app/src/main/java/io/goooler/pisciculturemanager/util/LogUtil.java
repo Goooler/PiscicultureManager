@@ -10,7 +10,6 @@ import io.goooler.pisciculturemanager.model.Constants;
  */
 
 public class LogUtil {
-    private static boolean showLog = true;
     private static final String DEFAULT_LOG_TAG = "defaultLogTag";
 
     public static void d(String debugInfo) {
@@ -22,8 +21,9 @@ public class LogUtil {
     }
 
     private static void log(String tag, String debugInfo) {
+        boolean showLog = true;
         if (showLog) {
-            if (debugInfo == Constants.NULL_OBJECT) {
+            if (EmptyUtil.isEmpty(debugInfo)) {
                 Log.d(tag, Constants.NULL_STRING);
             } else {
                 Log.d(tag, debugInfo);

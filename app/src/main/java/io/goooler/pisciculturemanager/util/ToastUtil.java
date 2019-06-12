@@ -1,13 +1,16 @@
 package io.goooler.pisciculturemanager.util;
 
+import android.os.Build;
 import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
 
 import io.goooler.pisciculturemanager.base.BaseApplication;
 
 /**
  * Toast 简单封装，可在子线程直接使用
  */
-
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class ToastUtil {
 
     /**

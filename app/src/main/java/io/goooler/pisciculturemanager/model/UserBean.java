@@ -11,11 +11,6 @@ import org.greenrobot.greendao.annotation.NotNull;
 @Entity
 public class UserBean {
 
-    /**
-     * @username 登录的用户名
-     * @password 登录的密码
-     */
-
     @Id
     private String username;
     @NotNull

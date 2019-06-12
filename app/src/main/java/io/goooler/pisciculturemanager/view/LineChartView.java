@@ -2,7 +2,10 @@ package io.goooler.pisciculturemanager.view;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Build;
 import android.util.AttributeSet;
+
+import androidx.annotation.RequiresApi;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
@@ -25,6 +28,7 @@ import io.goooler.pisciculturemanager.util.ResUtil;
  * MPAndroidChart 中的 LineChart 简单封装，
  * 加入统一的属性设置，绘制方法
  */
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class LineChartView extends LineChart {
     public LineChartView(Context context) {
         super(context);

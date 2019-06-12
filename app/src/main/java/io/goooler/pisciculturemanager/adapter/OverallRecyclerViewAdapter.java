@@ -65,8 +65,6 @@ public class OverallRecyclerViewAdapter extends RecyclerView.Adapter<OverallRecy
 
     /**
      * 设置所有 item 上的 EditText 的可编辑状态
-     *
-     * @param editable
      */
     public void setEditable(boolean editable) {
         this.editable = editable;

@@ -8,7 +8,7 @@
         android:src="@mipmap/default_avatar"
         android:layout_width="@dimen/global_60"
         android:layout_height="@dimen/global_60"
-        android:layout_marginLeft="@dimen/global_10"
+        android:layout_marginStart="@dimen/global_10"
         android:layout_marginTop="@dimen/global_15"
         android:layout_marginBottom="@dimen/global_15" />
 
@@ -17,7 +17,7 @@
         android:text="@string/default_test"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/global_60"
-        android:layout_marginLeft="@dimen/global_80"
+        android:layout_marginStart="@dimen/global_80"
         android:layout_marginTop="@dimen/global_10"
         android:layout_marginBottom="@dimen/global_10"
         android:gravity="center_vertical"

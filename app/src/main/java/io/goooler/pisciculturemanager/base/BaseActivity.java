@@ -26,7 +26,7 @@ public class BaseActivity extends AppCompatActivity {
         ActivityCollector.removeActivity(this);
     }
 
-    public <T extends View> T find(int resId) {
+    protected <T extends View> T find(int resId) {
         return (T) super.findViewById(resId);
     }
 }

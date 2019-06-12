@@ -1,6 +1,9 @@
 package io.goooler.pisciculturemanager.util;
 
 import android.content.SharedPreferences;
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
 
 import io.goooler.pisciculturemanager.R;
 import io.goooler.pisciculturemanager.base.BaseApplication;
@@ -12,7 +15,7 @@ import static android.content.Context.MODE_PRIVATE;
 /**
  * SharedPreferences 几个工具的简单封装
  */
-
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class SpUtil {
 
     /**
@@ -42,8 +45,6 @@ public class SpUtil {
 
     /**
      * 判断应用是否第一次启动
-     *
-     * @return
      */
     public static boolean isFirstRun() {
         return getSp(Constants.SP_RUNINFO).getBoolean(Constants.SP_FIRST_RUN, true);

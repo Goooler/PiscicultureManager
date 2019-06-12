@@ -2,6 +2,7 @@ package io.goooler.pisciculturemanager.fragment;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -35,10 +37,10 @@ import io.goooler.pisciculturemanager.util.EventBusUtil;
 /**
  * 首页第三个 fragment
  */
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class MainNotificationFragment extends BaseFragment implements
         NotificationRecyclerViewAdapter.OnItemClickListener, OnLoadMoreListener {
     private RefreshLayout refreshLayout;
-    private RecyclerView recyclerView;
     private NotificationRecyclerViewAdapter recyclerViewAdapter;
     private RecyclerView.LayoutManager layoutManager;
 
@@ -63,7 +65,7 @@ public class MainNotificationFragment extends BaseFragment implements
     @Override
     public View initView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main_notification, container, false);
-        recyclerView = find(rootView, R.id.notify_recycler);
+        RecyclerView recyclerView = find(rootView, R.id.notify_recycler);
         refreshLayout = find(rootView, R.id.notify_refresh);
 
         recyclerViewAdapter = new NotificationRecyclerViewAdapter(warnningDataBeans);
